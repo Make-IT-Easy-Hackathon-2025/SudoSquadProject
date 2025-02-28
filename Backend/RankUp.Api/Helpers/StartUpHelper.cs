@@ -20,6 +20,9 @@ namespace RankUpp.Api.Helpers
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 
+            services.AddScoped<IMemoryRepository, MemoryRepository>();
+            services.AddScoped<IMemoryService, MemoryService>();
+
             return services;
         }
 
@@ -63,6 +66,14 @@ namespace RankUpp.Api.Helpers
             return services;
         }
 
+        public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(RankUpp.Application.Mappers.QuizProfile).Assembly);
+            services.AddAutoMapper(typeof(RankUpp.Application.Mappers.MemoryMapper).Assembly);
+
+            return services;
+        }
+
         public static IServiceCollection ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             
@@ -78,8 +89,6 @@ namespace RankUpp.Api.Helpers
                         Encoding.UTF8.GetBytes(StartUpHelper.GetTokenSecretKey(configuration))),
                     };
                 });
-            
-
 
             return services;
         }

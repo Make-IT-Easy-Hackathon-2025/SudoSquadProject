@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace RankUpp.Core.Models
 {
-    [Table("users")]
-    public class User
+    [Table("quizzes")]
+    public class Quiz
     {
         [Key]
         public int Id { get; set; }
 
-        public string UserName { get; set; }
+        public string Title { get; set; }
 
-        public string Email { get; set; }
+        public string Description { get; set; }
 
-        public string PasswordHash { get; set; }
+        public virtual ICollection<QuizQuestion> Questions { get; set; }
     }
 }
