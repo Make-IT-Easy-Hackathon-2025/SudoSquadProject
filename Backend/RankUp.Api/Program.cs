@@ -5,17 +5,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBackendServices();
 
+builder.Services.AddConfigurations(builder.Configuration);
+
 builder.Services.ConfigureDatabase(builder.Configuration);
+
+builder.Services.ConfigureJwtAuthentication(builder.Configuration);
+
+builder.Services.AddBearerSecurityToSwagger();
 
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "customPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials();
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
