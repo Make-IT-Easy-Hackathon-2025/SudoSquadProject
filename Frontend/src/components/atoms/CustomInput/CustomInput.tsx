@@ -2,7 +2,7 @@ import { TextInput, StyleSheet, View } from "react-native";
 import React from "react";
 import { Row } from "../Row/Row";
 import { Column } from "../Column/Column";
-import Icon from "react-native-vector-icons/FontAwesome";
+import FontAwesome from "@react-native-vector-icons/fontawesome";
 import { BodyText } from "../Headers/BodyText";
 import { SmallText } from "../Headers/SmallText";
 
@@ -14,7 +14,7 @@ interface CustomInputProps {
   secureTextEntry?: boolean;
   keyboardType?: "numeric" | "email-address" | "phone-pad" | "default";
   inputError?: string;
-  icon?: string;
+  icon?: any;
   iconColor?: string;
 }
 
@@ -37,7 +37,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
         ]}
       >
         {icon && (
-          <Icon
+          <FontAwesome
             name={icon}
             size={20}
             color='#000000'

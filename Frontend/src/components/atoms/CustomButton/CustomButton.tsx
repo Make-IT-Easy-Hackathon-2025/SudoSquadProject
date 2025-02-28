@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import { Row } from "../Row/Row";
-import Icon from "react-native-vector-icons/FontAwesome";
+import FontAwesome from "@react-native-vector-icons/fontawesome";
 
 interface CustomButtonProps {
   text?: string;
@@ -17,7 +17,7 @@ interface CustomButtonProps {
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   disabled?: boolean;
-  icon?: React.ReactNode;
+  icon: any;
   backGroundColor?: string;
 }
 
@@ -42,7 +42,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
     >
       <Row>
         {icon && (
-          <Icon
+          <FontAwesome
             name={icon}
             size={20}
             color='white'
