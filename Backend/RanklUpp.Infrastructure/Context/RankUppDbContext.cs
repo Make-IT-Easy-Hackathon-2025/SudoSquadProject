@@ -17,6 +17,16 @@ namespace RanklUpp.Infrastructure.Context
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<UserMemory> Memories { get; set; }
+
+        public DbSet<Quiz> Quizs { get; set; }
+
+        public DbSet<QuizQuestion> QuizQuestions { get; set; }
+
+        public DbSet<QuizOption> QuizOptions { get; set; }
+
+        public DbSet<QuizAttempt> QuizAttempts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

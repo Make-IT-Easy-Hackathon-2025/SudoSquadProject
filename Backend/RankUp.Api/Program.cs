@@ -14,6 +14,9 @@ builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddBearerSecurityToSwagger();
 
 
+builder.Services.ConfigureAutoMapper();
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "customPolicy", policy =>
@@ -39,6 +42,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseCors("customPolicy");
