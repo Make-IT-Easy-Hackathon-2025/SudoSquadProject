@@ -5,7 +5,7 @@ import React, {
   PropsWithChildren,
 } from "react";
 import { User } from "../utils/types/User";
-import { removeData, storeData } from "../utils";
+import { removeData } from "../utils";
 import { post } from "../services/APIService";
 
 type AuthState = {
@@ -19,9 +19,9 @@ type response = { access_token: string };
 
 export type AuthProps = {
   authState?: AuthState;
-  login?: (user: any) => Promise<response | undefined>;
-  register?: (user: any) => Promise<response | undefined>;
-  logout?: () => Promise<void>;
+  login? (user: any): Promise<response | undefined>;
+  register? (user: any): Promise<response | undefined>;
+  logout? (): Promise<void>;
 };
 
 const AuthContext = createContext<AuthProps>({});
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
   const login = async (user: any): Promise<response | undefined> => {
     try {
       setAuthState({ ...authState, loading: true });
-      const response = await post<response>("/auth/login", user);
+      const response = await post<response>("/users/login", user);
       setAuthState({
         user: null,
         loading: false,

@@ -1,71 +1,58 @@
-import axios, { AxiosResponse, AxiosRequestConfig, Axios } from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { getData } from '../utils';
 
-const API_URL = 'http://localhost:8083';
+const API_URL = 'https://8c60-217-73-170-83.ngrok-free.app' + '/api';
 
-const createApiClient = axios.create({
-  baseURL: API_URL, 
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  timeout: 2500
 });
 
-export const get = async <T>(endPoint: string, token: number): Promise<T> => {
-    const config: AxiosRequestConfig = {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: token ? `Bearer ${token}` : '',
-        },
-    };
+axiosInstance.interceptors.request.use((config) => {
+    const AUTH_TOKEN = getData('AUTH_TOKEN');
+    if (AUTH_TOKEN) {
+        config.headers.Authorization = `Bearer ${AUTH_TOKEN}`;
+    }
 
+    return config;
+});
+
+export const get = async <T>(endPoint: string): Promise<T> => {
     try {
-        const response: AxiosResponse<T> = await createApiClient.get(endPoint, config);
+        const response: AxiosResponse<T> = await axiosInstance.get(endPoint);
         return response.data;
     }
     catch (error: any) {
-        if(axios.isAxiosError(error)) {
-            throw new Error(error.response?.data);
-        }
-        throw new Error("Error while fetching data", error.message);
+        throw new Error(error.message);
     }
 };
 
-export const post = async <T>(endPoint: string, token?: number, data?: any): Promise<T> => {
-    const config: AxiosRequestConfig = {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: token ?  `Bearer ${token}` : '',
-        },
-    };
-
+export const post = async <T>(endPoint: string, data: any): Promise<T> => {
     try {
-        const response: AxiosResponse<T> = await createApiClient.post(endPoint, config, data);
+        const response: AxiosResponse<T> = await axiosInstance.post(endPoint, data);
         return response.data;
     }
     catch (error: any) {
-        if(axios.isAxiosError(error)) {
-            throw new Error(error.response?.data);
-        }
-        throw new Error("Error while posting data", error.message);
+        throw new Error(error.message);
     }
 };
 
-export const put = async <T>(endPoint: string, token: number, data?: any): Promise<T> => {
-    const config: AxiosRequestConfig = {
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: token ?  `Bearer ${token}` : '',
-        },
-    };
-
+export const put = async <T>(endPoint: string, data: any): Promise<T> => {
     try {
-        const response: AxiosResponse<T> = await createApiClient.put(endPoint, config, data);
+        const response: AxiosResponse<T> = await axiosInstance.put(endPoint, data);
         return response.data;
     }
     catch (error: any) {
-        if(axios.isAxiosError(error)) {
-            throw new Error(error.response?.data);
-        }
-        throw new Error("Error while putting data", error.message);
+        throw new Error(error.message);
     }
 };
 
+export const deleteEntity = async (endPoint: string): Promise<void> => {
+    try {
+        await axiosInstance.delete(endPoint);
+    }
+    catch (error: any) {
+        throw new Error(error.message);
+    }
+};
