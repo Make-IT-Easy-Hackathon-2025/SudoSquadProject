@@ -15,8 +15,6 @@ namespace RankUpp.Application.Mappers
         public MemoryMapper()
         {
             CreateMap<CreateMemoryRequestDTO, UserMemory>();
-
-            CreateMap<UserMemory, UserMemoryDTO>().ForMember(dest => dest.Quiz, act => act.MapFrom(src => src.Quiz));
         }
     }
 }

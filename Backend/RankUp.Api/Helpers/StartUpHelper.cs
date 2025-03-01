@@ -29,6 +29,8 @@ namespace RankUpp.Api.Helpers
             services.AddScoped<IQuizRepository, QuizRepository>();
             services.AddScoped<IQuizService, QuizService>();
 
+            services.AddScoped<IStatisticsService, StatisticsService>();
+
 
             services.AddSingleton(_ => new BlobServiceClient(GetBlobConnectionString(configuration)));
 

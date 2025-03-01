@@ -19,6 +19,6 @@ namespace RankUpp.Core.DTOs.Output
 
         public DateTime Date { get; set; }
 
-        public QuizDTO? Quiz { get; set; }
+        public int? QuizId { get; set; }
     }
 }

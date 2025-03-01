@@ -74,7 +74,11 @@ namespace RankUpp.Api.Controllers
 
             var attempts = quizAnswers.SelectedOptions.Select(x => new QuizAttempt { QuizOptionId = x, UserId = userId.Value, QuizId = id }).ToList();
 
-            return Ok(await _quizService.AddQuizAttemptsAsync(attempts, cancellation));
+            var result = await _quizService.AddQuizAttemptsAsync(attempts, cancellation);
+
+            await _quizService.EvaluateQuizAsync(id, userId.Value, cancellation);
+
+            return Ok(result);
         }
 
         /*
