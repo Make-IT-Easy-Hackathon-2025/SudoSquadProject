@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
+interface ErrorType {
+    [key: string]: string;
+}
+
 export const useLogin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState({email: "", password: ""});
+    const [error, setError] = useState<ErrorType>({});
 
     const auth = useAuth();
 

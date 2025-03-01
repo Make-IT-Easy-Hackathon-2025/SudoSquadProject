@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Column, CustomButton, CustomInput } from "../../components/atoms";
 import { Header1 } from "../../components/atoms";
 import { useLogin } from "./useLogin";
+import { useAuth } from "../../contexts/AuthContext";
 
-export const LoginScreen = () => {
+export const LoginScreen: React.FC = () => {
   const { email, setEmail, password, setPassword, userLogin, error } =
     useLogin();
 
@@ -15,17 +16,17 @@ export const LoginScreen = () => {
         <CustomInput
           placeholder='Email'
           icon='mail'
-          onChangeText={setEmail}
+          onChangeText={(prev) => setEmail(prev)}
           value={email}
-          inputError={error.email}
+          // inputError={error.email}
         />
         <CustomInput
           placeholder='Password'
           icon='lock'
           secureTextEntry
-          onChangeText={setPassword}
+          onChangeText={(prev) => setPassword(prev)}
           value={password}
-          inputError={error.password}
+          // inputError={error.password}
         />
         <CustomButton
           text='Login'

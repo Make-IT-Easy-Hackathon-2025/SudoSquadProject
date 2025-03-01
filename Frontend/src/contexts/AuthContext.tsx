@@ -19,9 +19,9 @@ type response = { token: string };
 
 export type AuthProps = {
   authState?: AuthState;
-  login? (user: any): Promise<response | undefined>;
-  register? (user: any): Promise<response | undefined>;
-  logout? (): Promise<void>;
+  login?(user: any): Promise<response | undefined>;
+  register?(user: any): Promise<response | undefined>;
+  logout?(): Promise<void>;
 };
 
 const AuthContext = createContext<AuthProps>({});
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
         error: null,
         isLoggedIn: true,
       });
-      await storeData('AUTH_TOKEN', response.token);
+      await storeData("AUTH_TOKEN", response.token);
       return response;
     } catch (error: any) {
       setAuthState({ ...authState, loading: false, error: error.message });
@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
         error: null,
         isLoggedIn: true,
       });
+      await storeData("token", response.token);
       return response;
     } catch (error: any) {
       setAuthState({ ...authState, loading: false, error: error.message });

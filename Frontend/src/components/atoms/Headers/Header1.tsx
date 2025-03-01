@@ -3,7 +3,7 @@ import { Text } from "react-native";
 import { StyleSheet } from "react-native";
 
 interface Header1Props {
-  text: string;
+  text?: string;
 }
 
 export const Header1: React.FC<Header1Props> = ({ text }) => {
