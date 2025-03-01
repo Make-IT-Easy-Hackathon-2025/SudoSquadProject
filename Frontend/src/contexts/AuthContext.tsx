@@ -9,13 +9,13 @@ import { removeData, storeData } from "../utils";
 import { post } from "../services/APIService";
 
 type AuthState = {
-  user: User | null;
+  user: string | null;
   loading: boolean;
   error: string | null;
   isLoggedIn: boolean;
 };
 
-type response = { token: string };
+type response = { token: string; username: string };
 
 export type AuthProps = {
   authState?: AuthState;
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
       setAuthState({ ...authState, loading: true });
       const response = await post<response>("/users/login", user);
       setAuthState({
-        user: null,
+        user: response.username,
         loading: false,
         error: null,
         isLoggedIn: true,

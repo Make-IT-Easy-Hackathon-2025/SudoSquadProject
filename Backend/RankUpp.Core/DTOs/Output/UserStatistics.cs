@@ -13,6 +13,6 @@ namespace RankUpp.Core.DTOs.Output
 
         public int LastWeekPoints { get; set; }
 
-        public int LastWewkActivityCount { get; set; }
+        public int LastWeekActivityCount { get; set; }
     }
 }

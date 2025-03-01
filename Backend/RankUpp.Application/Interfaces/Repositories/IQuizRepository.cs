@@ -25,5 +25,6 @@ namespace RankUpp.Application.Interfaces.Repositories
         public Task<List<Quiz>> GetQuizesByIdsAsync(List<int> ids, CancellationToken cancellationToken =default);
 
         public Task<List<QuizAttempt>> GetAllQuizAttemptsAsync(int userId, List<int> QuizIds, CancellationToken cancellation = default);
+
     }
 }

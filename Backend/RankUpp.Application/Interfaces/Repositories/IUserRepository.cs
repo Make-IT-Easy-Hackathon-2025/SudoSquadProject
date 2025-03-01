@@ -20,6 +20,8 @@ namespace RankUpp.Application.Interfaces.Repositories
 
         public Task<int> GetPointsChangeByTimeAsync(int userId, DateTime dateTime);
 
+        public Task<int> GetActivityTimeAsync(int userId, DateTime dateTime);
+
         public Task<int> GetUserScoreByIdAsync(int userId);
 
     }
