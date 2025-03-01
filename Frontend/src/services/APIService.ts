@@ -27,7 +27,7 @@ export const get = async <T>(endPoint: string, token: number): Promise<T> => {
     }
 };
 
-export const post = async <T>(endPoint: string, token: number, data?: any): Promise<T> => {
+export const post = async <T>(endPoint: string, token?: number, data?: any): Promise<T> => {
     const config: AxiosRequestConfig = {
         headers: {
             'Content-Type': 'application/json',

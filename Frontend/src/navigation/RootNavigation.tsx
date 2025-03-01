@@ -1,5 +1,9 @@
 import { RootTabNavigation } from "./TabNavigation/RootTabNavigation";
+import { AuthStackNavigation } from "../navigation/StackNavigation";
+import { getData } from "../utils";
 
 export const RootNavigation = () => {
-  return <RootTabNavigation />;
+  if (getData("token") !== null) {
+    return <AuthStackNavigation />;
+  } else return <RootTabNavigation />;
 };

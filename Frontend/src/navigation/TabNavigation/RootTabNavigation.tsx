@@ -6,7 +6,7 @@ import {
   ProfileStackNavigation,
 } from "../StackNavigation";
 import { TabTypes } from "../ScreenTypes";
-import FontAwesome from "@react-native-vector-icons/fontawesome";
+// import FontAwesome from "@react-native-vector-icons/fontawesome";
 
 const Tab = createBottomTabNavigator();
 

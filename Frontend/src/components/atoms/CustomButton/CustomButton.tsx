@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import { Row } from "../Row/Row";
-import FontAwesome from "@react-native-vector-icons/fontawesome";
+// import FontAwesome from "@react-native-vector-icons/fontawesome";
 
 interface CustomButtonProps {
   text?: string;
@@ -41,14 +41,14 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
       disabled={disabled}
     >
       <Row>
-        {icon && (
+        {/* {icon && (
           <FontAwesome
             name={icon}
             size={20}
             color='white'
             style={styles.icon}
           />
-        )}
+        )} */}
         <Text>{text}</Text>
       </Row>
     </Pressable>
