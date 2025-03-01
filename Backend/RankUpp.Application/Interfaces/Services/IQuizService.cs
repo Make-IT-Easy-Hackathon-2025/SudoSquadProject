@@ -19,12 +19,12 @@ namespace RankUpp.Application.Interfaces.Services
 
         public Task<List<QuizAttempt>> AddQuizAttemptsAsync(List<QuizAttempt> attempts, CancellationToken cancellationToken = default);
 
-        public Task<int> EvaluateQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default);
+        public Task<Tuple<int,int>> EvaluateQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default);
 
         public Task<QuizReplayDTO> GetQuizReplayByIdAsync(int quizId, int userId, CancellationToken cancellationToken = default);
 
         public Task<Quiz> GenerateQuizAsync(PromptInputDTO promptInput, CancellationToken cancellationToken = default);
 
-        public Task<Quiz?> SerachForNewQuizAsync(string keyword, int userId, CancellationToken cancellationToken= default);
+        public Task<Quiz?> SearchForNewQuizAsync(string keyword, int userId, CancellationToken cancellationToken= default);
     }
 }

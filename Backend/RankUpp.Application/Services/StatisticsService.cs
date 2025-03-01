@@ -23,7 +23,9 @@ namespace RankUpp.Application.Services
 
             userStatistics.StreakNumber = await _userRepository.GetUserActivityStreakAsync(userId);
 
-            //userStatistics.LastWewkActivityCount = await _userRepository.GetUserActivitiesForLastWeekAsync(userId);
+            userStatistics.LastWewkActivityCount = await _userRepository.GetPointsChangeByTimeAsync(userId, DateTime.UtcNow.AddDays(-7));
+
+            userStatistics.Score = await _userRepository.GetUserScoreByIdAsync(userId);
 
             return userStatistics;
         }

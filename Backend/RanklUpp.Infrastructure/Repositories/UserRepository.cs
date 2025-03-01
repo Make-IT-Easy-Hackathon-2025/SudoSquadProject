@@ -122,5 +122,30 @@ namespace RanklUpp.Infrastructure.Repositories
 
             return user.Score;
         }
+
+        public async Task<int> GetPointsChangeByTimeAsync(int userId, DateTime dateTime)
+        {
+            var attempts = await _context.QuizAttempts.Where(qa => qa.UserId == userId && qa.Date > dateTime).Include(att => att.QuizOption).ToListAsync();
+
+            int score = 0;
+
+            foreach (var item in attempts)
+            {
+                if (item.QuizOption.IsCorrect)
+                {
+                    score++;
+                }
+                else
+                {
+                    score--;
+                }
+            }
+            return score;
+        }
+
+        public async Task<int> GetUserScoreByIdAsync(int userId)
+        {
+            return (await _context.Users.FindAsync(userId)).Score;
+        }
     }
 }

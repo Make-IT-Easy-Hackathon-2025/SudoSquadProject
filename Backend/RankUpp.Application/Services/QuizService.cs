@@ -48,33 +48,38 @@ namespace RankUpp.Application.Services
             return await _quizRepository.CreateQuizAsync(quiz, cancellationToken);
         }
 
-        public async Task<int> EvaluateQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default)
+        public async Task<Tuple<int, int>> EvaluateQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default)
         {
-            var quizes = await _quizRepository.GetQuizByIdAsync(quizId, cancellationToken);
+            var quiz = await _quizRepository.GetQuizByIdAsync(quizId, cancellationToken);
 
-            if(quizes == null)
+            if(quiz == null)
             {
                 throw new InvalidIdException();
             }
 
-            var answers = await _quizRepository.GetQuizAttemptsAsync(quizId, userId, cancellationToken);
+            var answers = (await _quizRepository.GetQuizAttemptsAsync(quizId, userId, cancellationToken)).ToDictionary(a => a.QuizOptionId);
 
             int rightAnswers = 0;
+            int wrongAnswers = 0;
 
-            foreach (var item in quizes.Questions)
+            foreach (var item in quiz.Questions)
             {
                 foreach (var option in item.Options)
                 {
-                    if(option.IsCorrect && answers.Any(x => x.QuizOptionId == option.Id))
+                    if(option.IsCorrect && answers.ContainsKey(option.Id))
                     {
                         rightAnswers++;
+                    }
+                    else if(answers.ContainsKey(option.Id))
+                    {
+                        wrongAnswers++;
                     }
                 }
             }
 
-            await _userRepository.UpdateUserScoreAsync(userId, rightAnswers - answers.Count);
+            await _userRepository.UpdateUserScoreAsync(userId, rightAnswers - wrongAnswers);
 
-            return rightAnswers - answers.Count;
+            return new Tuple<int, int>(rightAnswers, wrongAnswers);
         }
 
         public async Task<List<Quiz>> GetAllQuizsAsync(int? pageNumber = null, int? pageSize = null, CancellationToken cancellationToken = default)
@@ -220,7 +225,7 @@ namespace RankUpp.Application.Services
             };
         }
 
-        public async Task<Quiz?> SerachForNewQuizAsync(string keyword, int userId, CancellationToken cancellationToken = default)
+        public async Task<Quiz?> SearchForNewQuizAsync(string keyword, int userId, CancellationToken cancellationToken = default)
         {
             var quizzes = await _quizRepository.SearchQuizByKeywordAsync(keyword, cancellationToken);
 

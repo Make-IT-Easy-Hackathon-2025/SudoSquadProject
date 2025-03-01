@@ -78,9 +78,12 @@ namespace RankUpp.Api.Controllers
 
             var result = await _quizService.AddQuizAttemptsAsync(attempts, cancellation);
 
-            await _quizService.EvaluateQuizAsync(id, userId.Value, cancellation);
 
-            return Ok(result);
+
+            var score = await _quizService.EvaluateQuizAsync(id, userId.Value, cancellation);
+
+
+            return Ok(new EvaluateQuizResult { Right = score.Item1, Wrong = score.Item2});
         }
 
         [HttpGet]
@@ -120,7 +123,7 @@ namespace RankUpp.Api.Controllers
                 }
 
 
-                var quiz = await _quizService.SerachForNewQuizAsync(promptInput.Keyword.ToLower(), userId.Value, cancellation);
+                var quiz = await _quizService.SearchForNewQuizAsync(promptInput.Keyword.ToLower(), userId.Value, cancellation);
 
                 if(quiz != null)
                 {
@@ -134,6 +137,5 @@ namespace RankUpp.Api.Controllers
 
             return Ok(_mapper.Map<QuizDTO>(result));
         }
-        
     }
 }
