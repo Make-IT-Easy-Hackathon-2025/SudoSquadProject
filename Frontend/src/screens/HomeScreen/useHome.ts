@@ -7,10 +7,10 @@ export const useHome = () => {
 
     const userMemories: UserMemory[] = [
         {
-          id: "1",
+          id: 1,
           title: "Birthday Party",
           description: "Had a wonderful time with family and friends.",
-          imageUrl: "",
+          image_url: "",
           date: "2017-02-20T12:15:00.000Z"
         },
         {

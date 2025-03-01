@@ -30,11 +30,15 @@ export const get = async <T>(endPoint: string): Promise<T> => {
 
 export const post = async <T>(endPoint: string, data: any): Promise<T> => {
     try {
+        console.log("data",data);
         const response: AxiosResponse<T> = await axiosInstance.post(endPoint, data);
+        console.log("Response",response.data);
         return response.data;
     }
     catch (error: any) {
+        console.log(error.message.toString());
         throw new Error(error.message);
+        
     }
 };
 

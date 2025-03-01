@@ -2,6 +2,6 @@ import { QuizOption } from "./QuizOption";
 
 export type QuizQuestion = {
   id: number;
-  questionValue: string;
+  value: string;
   options: QuizOption[];
 };

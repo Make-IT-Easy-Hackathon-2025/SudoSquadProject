@@ -10,7 +10,7 @@ import { RoadMap, QuizWidget } from "../../components/widgets";
 export const MiniGameScreen: React.FC = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<ScreenTypes>>();
   const gameType = route.params.gameType;
-  const { topic, setTopic } = useMiniGame();
+  const miniGameLogic = useMiniGame();
 
   const backButtonEffect = () => {
     navigation.pop();
@@ -20,7 +20,7 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
     if (gameType === "roadmap") {
       return <RoadMap />;
     } else if (gameType === "quiz") {
-      return <QuizWidget />;
+      return <QuizWidget miniGameLogic={miniGameLogic} />;
     } else {
       return <Text style={styles.customGameText}>Custom Game</Text>;
     }
@@ -41,9 +41,10 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton
-          text='Generate Quiz'
+          text={"Generate Quiz"}
           buttonStyle={styles.buttonStyle}
           textStyle={styles.buttonText}
+          onPress={miniGameLogic.generate}
         />
       </View>
     </SafeAreaView>

@@ -1,54 +1,110 @@
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { Column, CustomButton, CustomInput, Header1, Header3 } from "../atoms";
+import {
+  BodyText,
+  Column,
+  CustomButton,
+  CustomInput,
+  Header1,
+  Header3,
+} from "../atoms";
 import { Ionicons } from "@expo/vector-icons";
-import Feather from "@expo/vector-icons/Feather";
+import { useMiniGame } from "../../screens/MiniGameScreen/useMiniGame";
+// import Feather from "@expo/vector-icons/Feather";
 
-export const QuizWidget: React.FC = () => {
-  const [inputText, setInputText] = useState("");
-  // const { topic, setTopic }
+export const QuizWidget: React.FC<{
+  miniGameLogic: ReturnType<typeof useMiniGame>;
+}> = ({ miniGameLogic }) => {
+  // const [inputText, setInputText] = useState("");
+  // const { topic, setTopic } = useMiniGame();
+  // const { loading, error, quiz, saveQuizInMemory } = useMiniGame();
 
-  return (
-    <Column
-      style={styles.inputContainer}
-      gap={24}
-    >
-      <View style={styles.headerContainer}>
-        <Ionicons
-          name='school'
-          size={24}
-          color='#6C63FF'
-        />
-        <View style={styles.headerTextContainer}>
-          <Column gap={4}>
-            <Header1
-              style={styles.headerTitle}
-              text='Quiz Generator"'
-            />
-            <Header3
-              style={styles.headerSubtitle}
-              text='Create custom quizzes instantly'
-            />
-          </Column>
+  // if (miniGameLogic.error) {
+  //   return (
+  //     <Column>
+  //       <BodyText text='An error occurred' />
+  //       <BodyText text={miniGameLogic.error} />
+  //     </Column>
+  //   );
+  // } else
+  if (miniGameLogic.quiz) {
+    return (
+      <Column
+        style={styles.inputContainer}
+        gap={24}
+      >
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name='school'
+            size={24}
+            color='#6C63FF'
+          />
+          <View style={styles.headerTextContainer}>
+            <Column gap={4}>
+              <Header1
+                style={styles.headerTitle}
+                text='Quiz Generator"'
+              />
+              <Header3
+                style={styles.headerSubtitle}
+                text='Create custom quizzes instantly'
+              />
+            </Column>
+          </View>
         </View>
-      </View>
-      <View style={{ width: "92%" }}>
-        <CustomInput
-          placeholder='What would you like to learn about?'
-          value={inputText}
-          onChangeText={setInputText}
-          customStyle={styles.inputStyle}
-          icon='search'
+        <View style={{ width: "92%" }}>
+          <CustomInput
+            placeholder='What would you like to learn about?'
+            value={miniGameLogic.topic}
+            onChangeText={(e) => {
+              miniGameLogic.setTopic(e);
+            }}
+            customStyle={styles.inputStyle}
+            icon='search'
+          />
+          {/* <Checkbox /> */}
+        </View>
+      </Column>
+    );
+  } else if (miniGameLogic.loading) {
+    return (
+      <Column>
+        <ActivityIndicator
+          size='large'
+          color='#000fff'
         />
-      </View>
-    </Column>
-  );
+        <BodyText text='Loading...' />
+      </Column>
+    );
+  } else {
+    return (
+      <Column
+        style={styles.inputContainer}
+        gap={24}
+      >
+        <View style={styles.headerContainer}>
+          <Ionicons
+            name='school'
+            size={24}
+            color='#6C63FF'
+          />
+          <View style={styles.headerTextContainer}>
+            <Column gap={4}>
+              <Header1
+                style={styles.headerTitle}
+                text='Quiz Generator"'
+              />
+              <Header3
+                style={styles.headerSubtitle}
+                text='Create custom quizzes instantly'
+              />
+            </Column>
+          </View>
+        </View>
+      </Column>
+    );
+  }
 };
-
-// This component might not exist in your atoms folder, so I'm defining it here
-// const CustomText = ({ style, children }) => {
-//   return <Text style={style}>{children}</Text>;
-// };
 
 const styles = StyleSheet.create({
   inputContainer: {
