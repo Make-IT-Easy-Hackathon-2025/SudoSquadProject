@@ -12,6 +12,7 @@ namespace RankUpp.Core.Models
     public class QuizOption
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public string OptionValue { get; set; }

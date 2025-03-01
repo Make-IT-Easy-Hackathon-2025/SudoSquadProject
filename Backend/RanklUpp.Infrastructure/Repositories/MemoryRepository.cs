@@ -33,7 +33,7 @@ namespace RanklUpp.Infrastructure.Repositories
 
         public async Task<UserMemory> GenerateMemoryFromQuizAsync(int userId, int quizId, CancellationToken cancellationToken)
         {
-            var quiz = await _context.Quizs.FindAsync(quizId);
+            var quiz = await _context.Quizzes.FindAsync(quizId);
 
             if (quiz == null)
             {

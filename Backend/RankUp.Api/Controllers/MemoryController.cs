@@ -13,7 +13,7 @@ using RankUpp.Core.Models;
 namespace RankUpp.Api.Controllers
 {
     [ApiController]
-    [Route("memories")]
+    [Route("api/memories")]
     public class MemoryController : ControllerBase
     {
         private readonly IMemoryService _memoryService;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RankUpp.Core.DTOs.Input;
 using RankUpp.Core.DTOs.Output;
 using RankUpp.Core.Models;
 using System;
@@ -16,12 +17,31 @@ namespace RankUpp.Application.Mappers
             CreateMap<Quiz, QuizDTO>()
                 .ForMember(dest => dest.Questions, act => act.MapFrom(src => src.Questions));
 
+            CreateMap<QuizDTO, Quiz>()
+                        .ForMember(dest => dest.Questions, act => act.MapFrom(src => src.Questions));
+
             CreateMap<QuizQuestion, QuizQuestionDTO>()
+                                .ForMember(dest => dest.Value, act => act.MapFrom(src => src.QuestionValue))
                                 .ForMember(dest => dest.Options, act => act.MapFrom(src => src.Options));
+
+            CreateMap<QuizQuestionDTO, QuizQuestion>()
+                              .ForMember(dest => dest.Options, act => act.MapFrom(src => src.Options))
+                              .ForMember(dest => dest.QuestionValue, act => act.MapFrom(src => src.Value));
 
             CreateMap<QuizOption, QuizOptionDTO>();
 
-            CreateMap<UserMemory, UserMemoryDTO>().ForMember(dest => dest.Quiz, act => act.MapFrom(src => src.Quiz));
+
+            CreateMap<QuizOptionDTO, QuizOption>();
+
+
+            CreateMap<CreateQuizDTO, Quiz>()
+                                .ForMember(dest => dest.Questions, act => act.MapFrom(src => src.Questions));
+
+            CreateMap<CreateQuizQuestionDTO, QuizQuestion>()
+                    .ForMember(dest => dest.QuestionValue, act => act.MapFrom(src => src.Value))
+                    .ForMember(dest => dest.Options, act => act.MapFrom(src => src.Options));
+
+            CreateMap<CreateQuizOptionDTO, QuizOption>();
 
 
         }

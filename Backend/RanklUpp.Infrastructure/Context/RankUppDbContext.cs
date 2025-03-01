@@ -19,7 +19,7 @@ namespace RanklUpp.Infrastructure.Context
 
         public DbSet<UserMemory> Memories { get; set; }
 
-        public DbSet<Quiz> Quizs { get; set; }
+        public DbSet<Quiz> Quizzes { get; set; }
 
         public DbSet<QuizQuestion> QuizQuestions { get; set; }
 
