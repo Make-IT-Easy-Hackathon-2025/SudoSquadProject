@@ -52,14 +52,14 @@ export const ReactionGameWidget = () => {
     const maxX = Math.max(0, areaWidth - CIRCLE_SIZE);
     const maxY = Math.max(0, areaHeight - CIRCLE_SIZE);
     
-    console.log('Game area size:', {width: areaWidth, height: areaHeight});
-    console.log('Max position values:', { maxX, maxY });
+    // console.log('Game area size:', {width: areaWidth, height: areaHeight});
+    // console.log('Max position values:', { maxX, maxY });
     
     // Ensure we get positive values
     const x = Math.min(maxX, Math.max(0, Math.floor(Math.random() * maxX)));
     const y = Math.min(maxY, Math.max(0, Math.floor(Math.random() * maxY)));
     
-    console.log('Generated position:', { x, y });
+    // console.log('Generated position:', { x, y });
     return { x, y };
   };
   
@@ -92,7 +92,7 @@ export const ReactionGameWidget = () => {
   
   // Show the circle at a random position
   const showCircle = () => {
-    console.log('Showing circle');
+    // console.log('Showing circle');
     const newPosition = generateRandomPosition();
     
     // Set both the position and visibility in a more reliable sequence
@@ -106,10 +106,10 @@ export const ReactionGameWidget = () => {
     
     // Double check after a small delay that the circle is actually visible
     setTimeout(() => {
-      console.log('After delay, circle visible:', circleVisible);
+      // console.log('After delay, circle visible:', circleVisible);
       // If not visible for some reason, force it visible
       if (!circleVisible) {
-        console.log('Forcing circle to be visible');
+        // console.log('Forcing circle to be visible');
         setCircleVisible(true);
       }
     }, 200);
@@ -117,10 +117,10 @@ export const ReactionGameWidget = () => {
   
   // Handle circle tap
   const handleTap = () => {
-    console.log('Circle tapped!');
+    // console.log('Circle tapped!');
     
     if (!circleVisible) {
-      console.log('Circle not visible, ignoring tap');
+      // console.log('Circle not visible, ignoring tap');
       return;
     }
     
@@ -146,7 +146,7 @@ export const ReactionGameWidget = () => {
     const { width, height } = event.nativeEvent.layout;
     // const width = 400;
     // const height = 400;
-    console.log('Game area measured:', { width, height });
+    // console.log('Game area measured:', { width, height });
     
     // Only update if we got a valid width
     if (width > 0) {
@@ -159,7 +159,7 @@ export const ReactionGameWidget = () => {
   // Effect to update state and check rendering
   useEffect(() => {
     if (circleVisible) {
-      console.log('Circle is now visible in state');
+      // console.log('Circle is now visible in state');
     }
   }, [circleVisible]);
   
