@@ -104,7 +104,7 @@ export const useMiniGame = () => {
         // console.log("Generate function called");
         try{
             setLoading((prev) => !prev);
-             const response: Quiz[]  = await post("/quizes/prompt", {keyword: topic, useAi: true});
+             const response: Quiz[]  = await post("/quizes/prompt", {keyword: topic});
             //  console.log(response);
              if(response){
                 //  console.log(response);

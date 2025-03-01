@@ -6,7 +6,7 @@ const API_URL = 'https://8c60-217-73-170-83.ngrok-free.app' + '/api';
 const axiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: true,
-  timeout: 2500
+  timeout: 50500
 });
 
 axiosInstance.interceptors.request.use(async (config) => {
