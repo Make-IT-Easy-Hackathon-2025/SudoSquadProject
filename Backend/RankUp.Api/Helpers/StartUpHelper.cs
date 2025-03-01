@@ -9,6 +9,7 @@ using RankUpp.Api.Configurations;
 using RankUpp.Application.Interfaces.Repositories;
 using RankUpp.Application.Interfaces.Services;
 using RankUpp.Application.Services;
+using RankUpp.Core.Configurations;
 using RankUpp.Core.Exceptions;
 using System.Text;
 
@@ -31,6 +32,9 @@ namespace RankUpp.Api.Helpers
 
             services.AddScoped<IStatisticsService, StatisticsService>();
 
+            services.AddScoped<IRoadMapRepository, RoadMapRepository>();
+            services.AddScoped<IRoadMapService,  RoadMapService>();
+
 
             services.AddSingleton(_ => new BlobServiceClient(GetBlobConnectionString(configuration)));
 
@@ -40,6 +44,8 @@ namespace RankUpp.Api.Helpers
         public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
+            services.Configure<GeminiSettings>(configuration.GetSection("GeminiSettings"));
 
             return services;
         }
@@ -81,6 +87,7 @@ namespace RankUpp.Api.Helpers
         {
             services.AddAutoMapper(typeof(RankUpp.Application.Mappers.QuizProfile).Assembly);
             services.AddAutoMapper(typeof(RankUpp.Application.Mappers.MemoryMapper).Assembly);
+            services.AddAutoMapper(typeof(RankUpp.Application.Mappers.RoadMapMapper).Assembly);
 
             return services;
         }

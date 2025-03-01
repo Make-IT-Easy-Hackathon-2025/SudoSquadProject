@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RankUpp.Application.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,5 +23,7 @@ namespace RankUpp.Core.Models
         public string PasswordHash { get; set; }
 
         public int Score { get; set; }
+
+        public ICollection<UserRoadMapItems> UserRoadMapItems { get; set; } 
     }
 }
