@@ -24,6 +24,48 @@ namespace RanklUpp.Infrastructure.Repositories
             return result.Entity;
         }
 
+        public async Task<int> GetUserActivityStreakAsync(int userId)
+        {
+            var quizAttempts = await _context.QuizAttempts
+                                            .Where(q => q.UserId == userId)
+                                            .OrderBy(q => q.Date)
+                                            .Select(q => q.Date)
+                                            .ToListAsync();
+
+            var userMemories = await _context.Memories
+                                            .Where(m => m.UserId == userId)
+                                            .OrderBy(m => m.Date)
+                                            .Select(m => m.Date)
+                                            .ToListAsync();
+
+  
+            var activityDates = quizAttempts.Concat(userMemories)
+                                            .Distinct() 
+                                            .OrderBy(d => d) 
+                                            .ToList();
+
+            int streakCount = 0;
+            int maxStreak = 0;
+            DateTime? previousDate = null;
+
+            foreach (var activityDate in activityDates)
+            {
+                if (previousDate.HasValue && (activityDate - previousDate.Value).Days == 1)
+                {
+                    streakCount++;
+                }
+                else
+                {
+                    streakCount = 1;
+                }
+
+                maxStreak = Math.Max(maxStreak, streakCount);
+                previousDate = activityDate;
+            }
+
+            return maxStreak;
+        }
+
         public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
@@ -32,6 +74,13 @@ namespace RanklUpp.Infrastructure.Repositories
         public async Task<User?> GetUserByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<List<QuizAttempt>> GetUserActivitiesForLastWeekAsync(int userId)
+        {
+            DateTime oneWeekAgo = DateTime.UtcNow.Date.AddDays(-7);
+
+           return await _context.QuizAttempts.Where(q => q.UserId == userId && q.Date >= oneWeekAgo).ToListAsync();
         }
 
         public async Task<bool> IsEmailUsedAsync(string email, CancellationToken cancellationToken = default)
@@ -56,6 +105,22 @@ namespace RanklUpp.Infrastructure.Repositories
             }
 
             return true;
+        }
+
+        public async Task<int> UpdateUserScoreAsync(int userId, int newAddition, CancellationToken cancellationToken = default)
+        {
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                throw new InvalidDataException();
+            }
+
+            user.Score += newAddition;
+
+            _context.SaveChanges();
+
+            return user.Score;
         }
     }
 }

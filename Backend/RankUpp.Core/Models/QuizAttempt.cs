@@ -30,5 +30,7 @@ namespace RankUpp.Core.Models
 
         public virtual Quiz Quiz { get; set; }
 
+        public DateTime Date { get; set; } = DateTime.UtcNow;
+
     }
 }

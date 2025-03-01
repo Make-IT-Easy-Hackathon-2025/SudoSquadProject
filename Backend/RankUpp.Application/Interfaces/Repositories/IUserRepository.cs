@@ -13,5 +13,9 @@ namespace RankUpp.Application.Interfaces.Repositories
         public Task<bool> IsUserNameUsedAsync(string userName, CancellationToken cancellationToken = default);
 
         public Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default);
+
+        public Task<int> UpdateUserScoreAsync(int userId,int newAddition, CancellationToken cancellationToken = default);
+
+        public Task<int> GetUserActivityStreakAsync(int userId);
     }
 }

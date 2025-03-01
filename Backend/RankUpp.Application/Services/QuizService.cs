@@ -14,7 +14,9 @@ namespace RankUpp.Application.Services
     {
         private readonly IQuizRepository _quizRepository;
 
-        public QuizService(IQuizRepository quizRepository)
+        private readonly IUserRepository _userRepository;
+
+        public QuizService(IQuizRepository quizRepository, IUserRepository userRepository)
         {
             _quizRepository = quizRepository;
         }
@@ -53,7 +55,9 @@ namespace RankUpp.Application.Services
                 }
             }
 
-            return rightAnswers;
+            await _userRepository.UpdateUserScoreAsync(userId, rightAnswers - answers.Count);
+
+            return rightAnswers - answers.Count;
         }
 
         public async Task<List<Quiz>> GetAllQuizsAsync(int? pageNumber = null, int? pageSize = null, CancellationToken cancellationToken = default)
