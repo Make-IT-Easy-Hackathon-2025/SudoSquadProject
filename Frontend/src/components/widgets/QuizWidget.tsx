@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   BodyText,
   Column,
@@ -10,24 +10,63 @@ import {
 } from "../atoms";
 import { Ionicons } from "@expo/vector-icons";
 import { useMiniGame } from "../../screens/MiniGameScreen/useMiniGame";
+import { QuestionWidgets } from "./QuestionWidgets";
 // import Feather from "@expo/vector-icons/Feather";
 
 export const QuizWidget: React.FC<{
   miniGameLogic: ReturnType<typeof useMiniGame>;
 }> = ({ miniGameLogic }) => {
-  // const [inputText, setInputText] = useState("");
-  // const { topic, setTopic } = useMiniGame();
-  // const { loading, error, quiz, saveQuizInMemory } = useMiniGame();
+  const renderQuiz = useMemo(() => {
+    if (miniGameLogic.loading) {
+      return (
+        <Column>
+          <ActivityIndicator
+            size='large'
+            color='#000fff'
+          />
+          <BodyText text='Loading...' />
+        </Column>
+      );
+    }
+    if (!miniGameLogic.quiz) {
+      return (
+        <Column
+          style={styles.inputContainer}
+          gap={24}
+        >
+          <View style={styles.headerContainer}>
+            <Ionicons
+              name='school'
+              size={24}
+              color='#6C63FF'
+            />
+            <View style={styles.headerTextContainer}>
+              <Column gap={4}>
+                <Header1
+                  style={styles.headerTitle}
+                  text='Quiz Generator"'
+                />
+                <Header3
+                  style={styles.headerSubtitle}
+                  text='Create custom quizzes instantly'
+                />
+              </Column>
+            </View>
+          </View>
+          <View style={{ width: "92%" }}>
+            <CustomInput
+              placeholder='What would you like to learn about?'
+              value={miniGameLogic.topic}
+              onChangeText={miniGameLogic.setTopic}
+              customStyle={styles.inputStyle}
+              icon='search'
+            />
+            {/* <Checkbox /> */}
+          </View>
+        </Column>
+      );
+    }
 
-  // if (miniGameLogic.error) {
-  //   return (
-  //     <Column>
-  //       <BodyText text='An error occurred' />
-  //       <BodyText text={miniGameLogic.error} />
-  //     </Column>
-  //   );
-  // } else
-  if (miniGameLogic.quiz) {
     return (
       <Column
         style={styles.inputContainer}
@@ -43,67 +82,17 @@ export const QuizWidget: React.FC<{
             <Column gap={4}>
               <Header1
                 style={styles.headerTitle}
-                text='Quiz Generator"'
+                text={"Your quiz topic is: " + miniGameLogic.topic}
               />
-              <Header3
-                style={styles.headerSubtitle}
-                text='Create custom quizzes instantly'
-              />
-            </Column>
-          </View>
-        </View>
-        <View style={{ width: "92%" }}>
-          <CustomInput
-            placeholder='What would you like to learn about?'
-            value={miniGameLogic.topic}
-            onChangeText={(e) => {
-              miniGameLogic.setTopic(e);
-            }}
-            customStyle={styles.inputStyle}
-            icon='search'
-          />
-          {/* <Checkbox /> */}
-        </View>
-      </Column>
-    );
-  } else if (miniGameLogic.loading) {
-    return (
-      <Column>
-        <ActivityIndicator
-          size='large'
-          color='#000fff'
-        />
-        <BodyText text='Loading...' />
-      </Column>
-    );
-  } else {
-    return (
-      <Column
-        style={styles.inputContainer}
-        gap={24}
-      >
-        <View style={styles.headerContainer}>
-          <Ionicons
-            name='school'
-            size={24}
-            color='#6C63FF'
-          />
-          <View style={styles.headerTextContainer}>
-            <Column gap={4}>
-              <Header1
-                style={styles.headerTitle}
-                text='Quiz Generator"'
-              />
-              <Header3
-                style={styles.headerSubtitle}
-                text='Create custom quizzes instantly'
-              />
+              <QuestionWidgets quiz={miniGameLogic.quiz} />
             </Column>
           </View>
         </View>
       </Column>
     );
-  }
+  }, [miniGameLogic.quiz]);
+
+  return <View style={{ width: "100%" }}>{renderQuiz}</View>;
 };
 
 const styles = StyleSheet.create({
