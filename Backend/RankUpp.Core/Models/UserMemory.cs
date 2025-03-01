@@ -24,6 +24,8 @@ namespace RankUpp.Core.Models
 
         public virtual User User { get; set; }
 
+        public string? ImageUrl { get; set; }
+
         public int? QuizId { get; set; }
 
         [ForeignKey(nameof(QuizId))]
