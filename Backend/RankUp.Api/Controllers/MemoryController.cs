@@ -84,5 +84,26 @@ namespace RankUpp.Api.Controllers
 
             return Ok(result.ConvertAll(_mapper.Map<UserMemoryDTO>));
         }
+
+        [HttpPost]
+        [Route("quiz/{quizId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserMemoryDTO))]
+        [Authorize]
+        public async Task<IActionResult> SaveQuizAsMemory([FromRoute] int quizId, CancellationToken cancellation = default)
+        {
+
+            var token = RequestProcessingHelper.GetAuthTokenFromRequest(Request);
+
+            var userId = RequestProcessingHelper.GetIdFromToken(_jwtSettings.Value, token);
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await _memoryService.GenerateMemoryFromQuizAsync(userId.Value, quizId, cancellation);
+
+            return Ok(_mapper.Map<UserMemoryDTO>(result));
+        }
     }
 }

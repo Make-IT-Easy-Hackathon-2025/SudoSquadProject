@@ -1,5 +1,7 @@
-﻿using RankUpp.Application.Interfaces.Repositories;
+﻿using AutoMapper;
+using RankUpp.Application.Interfaces.Repositories;
 using RankUpp.Application.Interfaces.Services;
+using RankUpp.Core.DTOs.Output;
 using RankUpp.Core.Exceptions;
 using RankUpp.Core.Models;
 using System;
@@ -16,9 +18,15 @@ namespace RankUpp.Application.Services
 
         private readonly IUserRepository _userRepository;
 
-        public QuizService(IQuizRepository quizRepository, IUserRepository userRepository)
+        private readonly IMapper _mapper;
+
+        public QuizService(IQuizRepository quizRepository, IUserRepository userRepository, IMapper mapper)
         {
             _quizRepository = quizRepository;
+
+            _userRepository = userRepository;
+
+            _mapper = mapper;
         }
 
         public async Task<List<QuizAttempt>> AddQuizAttemptsAsync(List<QuizAttempt> attempts, CancellationToken cancellationToken = default)
@@ -68,6 +76,30 @@ namespace RankUpp.Application.Services
         public async Task<Quiz?> GetQuizByIdAsync(int id, CancellationToken cancellation)
         {
             return await _quizRepository.GetQuizByIdAsync(id, cancellation);
+        }
+
+        public async Task<QuizReplayDTO> GetQuizReplayByIdAsync(int quizId, int userId, CancellationToken cancellationToken = default)
+        {
+            var quiz = await this.GetQuizByIdAsync(quizId, cancellationToken);
+
+            var attempts = await _quizRepository.GetQuizAttemptsAsync(quizId, userId, cancellationToken);
+
+            var map = attempts.ToDictionary(x => x.QuizOptionId);
+
+            var result = _mapper.Map<QuizReplayDTO>(quiz);
+
+            foreach (var question in result.Questions)
+            {
+                foreach (var option in question.Options)
+                {
+                    if (map.ContainsKey(option.Id))
+                    {
+                        option.IsSelected = true;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

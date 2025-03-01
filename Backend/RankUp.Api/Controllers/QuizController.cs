@@ -8,6 +8,7 @@ using RankUpp.Application.Interfaces.Services;
 using RankUpp.Core.DTOs.Input;
 using RankUpp.Core.DTOs.Output;
 using RankUpp.Core.Models;
+using System.Threading;
 
 namespace RankUpp.Api.Controllers
 {
@@ -51,6 +52,7 @@ namespace RankUpp.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<QuizDTO>))]
         public async Task<IActionResult> GetAllQuiz([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null, CancellationToken cancellation = default)
         {
             var result = await _quizService.GetAllQuizsAsync(pageNumber, pageSize, cancellation);
@@ -81,11 +83,10 @@ namespace RankUpp.Api.Controllers
             return Ok(result);
         }
 
-        /*
         [HttpGet]
-        [Route("{id}/evaluate")]
+        [Route("{id}/replay")]
         [Authorize]
-        public async Task<IActionResult> EvaluateQuiz([FromRoute] int id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetQuizReplayById([FromRoute] int id, CancellationToken cancellation = default)
         {
             var token = RequestProcessingHelper.GetAuthTokenFromRequest(Request);
 
@@ -96,9 +97,7 @@ namespace RankUpp.Api.Controllers
                 return BadRequest();
             }
 
-            return Ok(await _quizService.EvaluateQuizAsync(id, userId.Value, cancellationToken));
-
+            return Ok(await _quizService.GetQuizReplayByIdAsync(id, userId.Value, cancellation));
         }
-        */
     }
 }

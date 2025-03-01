@@ -1,4 +1,5 @@
-﻿using RankUpp.Core.Models;
+﻿using RankUpp.Core.DTOs.Output;
+using RankUpp.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
