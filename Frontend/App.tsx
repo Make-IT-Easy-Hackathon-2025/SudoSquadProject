@@ -3,13 +3,16 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { RootNavigation } from "./src/navigation/RootNavigation";
 import { AuthProvider } from "./src/contexts/AuthContext";
+import { UserMemoryProvider } from "./src/contexts/UserMemoryContext";
 
 export default function App() {
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <RootNavigation />
-      </NavigationContainer>
+      <UserMemoryProvider>
+        <NavigationContainer>
+          <RootNavigation />
+        </NavigationContainer>
+      </UserMemoryProvider>
     </AuthProvider>
   );
 }

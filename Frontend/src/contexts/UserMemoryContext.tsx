@@ -16,7 +16,7 @@ export type UserMemoryProps = {
 
 const UserMemoryContext = createContext<UserMemoryProps>({});
 
-export const getContext = () => {
+export const getUserMemoryContext = () => {
   return useContext(UserMemoryContext);
 };
 
