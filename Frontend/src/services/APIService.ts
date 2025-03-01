@@ -9,8 +9,8 @@ const axiosInstance = axios.create({
   timeout: 2500
 });
 
-axiosInstance.interceptors.request.use((config) => {
-    const AUTH_TOKEN = getData('AUTH_TOKEN');
+axiosInstance.interceptors.request.use(async (config) => {
+    const AUTH_TOKEN = await getData('AUTH_TOKEN');
     if (AUTH_TOKEN) {
         config.headers.Authorization = `Bearer ${AUTH_TOKEN}`;
     }

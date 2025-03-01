@@ -1,4 +1,5 @@
-﻿using RankUpp.Core.Models;
+﻿using RankUpp.Core.DTOs.Output;
+using RankUpp.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,11 @@ namespace RankUpp.Application.Interfaces.Repositories
         public Task<List<QuizAttempt>> AddQuizAttemptsAsync(List<QuizAttempt> attempts, CancellationToken cancellationToken = default);
 
         public Task<List<QuizAttempt>> GetQuizAttemptsAsync(int quizId, int userId, CancellationToken cancellationToken = default);
+
+        public Task<List<Quiz>> SearchQuizByKeywordAsync(string keyword, CancellationToken cancellationToken = default);
+
+        public Task<List<Quiz>> GetQuizesByIdsAsync(List<int> ids, CancellationToken cancellationToken =default);
+
+        public Task<List<QuizAttempt>> GetAllQuizAttemptsAsync(int userId, List<int> QuizIds, CancellationToken cancellation = default);
     }
 }

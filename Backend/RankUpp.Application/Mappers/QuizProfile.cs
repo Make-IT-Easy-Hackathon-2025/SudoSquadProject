@@ -44,6 +44,17 @@ namespace RankUpp.Application.Mappers
             CreateMap<CreateQuizOptionDTO, QuizOption>();
 
 
+            CreateMap<Quiz, QuizReplayDTO>().ForMember(dest => dest.Questions, act => act.MapFrom(src => src.Questions));
+
+            CreateMap<QuizQuestion, QuestionReplayDTO>()
+                             .ForMember(dest => dest.Value, act => act.MapFrom(src => src.QuestionValue))
+                             .ForMember(dest => dest.Options, act => act.MapFrom(src => src.Options));
+
+            CreateMap<QuizOption, QuizOptionReplayDTO>();
+
+
+
+
         }
     }
 }
