@@ -48,7 +48,7 @@ namespace RankUpp.Application.Services
             return await _quizRepository.CreateQuizAsync(quiz, cancellationToken);
         }
 
-        public async Task<int> EvaluateQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default)
+        public async Task<Tuple<int, int>> EvaluateQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default)
         {
             var quizes = await _quizRepository.GetQuizByIdAsync(quizId, cancellationToken);
 
@@ -60,6 +60,7 @@ namespace RankUpp.Application.Services
             var answers = await _quizRepository.GetQuizAttemptsAsync(quizId, userId, cancellationToken);
 
             int rightAnswers = 0;
+            int wrongAnswers = 0;
 
             foreach (var item in quizes.Questions)
             {
@@ -69,12 +70,16 @@ namespace RankUpp.Application.Services
                     {
                         rightAnswers++;
                     }
+                    else
+                    {
+                        wrongAnswers++;
+                    }
                 }
             }
 
-            await _userRepository.UpdateUserScoreAsync(userId, rightAnswers - answers.Count);
+            await _userRepository.UpdateUserScoreAsync(userId, rightAnswers - wrongAnswers);
 
-            return rightAnswers - answers.Count;
+            return new Tuple<int, int>(rightAnswers, wrongAnswers);
         }
 
         public async Task<List<Quiz>> GetAllQuizsAsync(int? pageNumber = null, int? pageSize = null, CancellationToken cancellationToken = default)
