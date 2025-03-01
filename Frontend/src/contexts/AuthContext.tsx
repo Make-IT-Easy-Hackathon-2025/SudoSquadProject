@@ -5,7 +5,7 @@ import React, {
   PropsWithChildren,
 } from "react";
 import { User } from "../utils/types/User";
-import { removeData } from "../utils";
+import { removeData, storeData } from "../utils";
 import { post } from "../services/APIService";
 
 type AuthState = {
@@ -15,7 +15,7 @@ type AuthState = {
   isLoggedIn: boolean;
 };
 
-type response = { access_token: string };
+type response = { token: string };
 
 export type AuthProps = {
   authState?: AuthState;
@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
         error: null,
         isLoggedIn: true,
       });
+      await storeData('AUTH_TOKEN', response.token);
       return response;
     } catch (error: any) {
       setAuthState({ ...authState, loading: false, error: error.message });
