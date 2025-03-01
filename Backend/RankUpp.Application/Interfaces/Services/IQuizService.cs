@@ -1,4 +1,5 @@
-﻿using RankUpp.Core.DTOs.Output;
+﻿using RankUpp.Core.DTOs.Input;
+using RankUpp.Core.DTOs.Output;
 using RankUpp.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,7 @@ namespace RankUpp.Application.Interfaces.Services
         public Task<int> EvaluateQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default);
 
         public Task<QuizReplayDTO> GetQuizReplayByIdAsync(int quizId, int userId, CancellationToken cancellationToken = default);
+
+        public Task<Quiz> GenerateQuizAsync(PromptInputDTO promptInput, CancellationToken cancellationToken = default);
     }
 }

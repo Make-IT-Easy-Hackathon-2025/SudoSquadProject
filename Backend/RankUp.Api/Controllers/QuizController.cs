@@ -99,5 +99,20 @@ namespace RankUpp.Api.Controllers
 
             return Ok(await _quizService.GetQuizReplayByIdAsync(id, userId.Value, cancellation));
         }
+
+        
+        [HttpPost]
+        [Route("prompt")]
+        [Authorize]
+        public async Task<IActionResult> GetQuizByPrompt([FromBody] PromptInputDTO promptInput, CancellationToken cancellation = default)
+        {
+
+            var newQuiz = await _quizService.GenerateQuizAsync(promptInput, cancellation);
+
+            var result = await _quizService.CreateQuizAsync(newQuiz, cancellation);
+
+            return Ok(_mapper.Map<QuizDTO>(result));
+        }
+        
     }
 }
