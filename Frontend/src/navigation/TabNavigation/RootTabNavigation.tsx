@@ -6,7 +6,8 @@ import {
   ProfileStackNavigation,
 } from "../StackNavigation";
 import { TabTypes } from "../ScreenTypes";
-// import FontAwesome from "@react-native-vector-icons/fontawesome";
+// import FontAwesome from "react-native-vector-icons/FontAwesome";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,15 +18,15 @@ export const RootTabNavigation = () => {
         name='Home'
         component={HomeStackNavigation}
         options={{
-          //   tabBarIcon: ({ focused }) => {
-          //     return (
-          //       <FontAwesome
-          //         name='key'
-          //         size={20}
-          //         color={focused ? "blue" : "black"}
-          //       />
-          //     );
-          //   },
+          tabBarIcon: ({ focused }) => {
+            return (
+              <FontAwesome
+                name='key'
+                size={20}
+                color={focused ? "blue" : "black"}
+              />
+            );
+          },
           tabBarLabelStyle: {
             fontSize: 12,
             fontWeight: "bold",

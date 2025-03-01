@@ -2,7 +2,7 @@ import { TextInput, StyleSheet, View } from "react-native";
 import React from "react";
 import { Row } from "../Row/Row";
 import { Column } from "../Column/Column";
-// import FontAwesome from "@react-native-vector-icons/fontawesome";
+import Feather from "react-native-vector-icons/Feather";
 import { BodyText } from "../Headers/BodyText";
 import { SmallText } from "../Headers/SmallText";
 
@@ -36,13 +36,13 @@ export const CustomInput: React.FC<CustomInputProps> = ({
           { borderColor: inputError ? "red" : "black" },
         ]}
       >
-        {/* {icon && (
-          // <FontAwesome
-          //   name={icon}
-          //   size={20}
-          //   color='#000000'
-          // />
-        )} */}
+        {icon && (
+          <Feather
+            name={icon}
+            size={20}
+            color='#000000'
+          />
+        )}
         <TextInput
           style={[customStyle, styles.input]}
           placeholder={placeholder ? placeholder : ""}

@@ -17,7 +17,7 @@ interface CustomButtonProps {
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   disabled?: boolean;
-  icon: any;
+  icon?: any;
   backGroundColor?: string;
 }
 
