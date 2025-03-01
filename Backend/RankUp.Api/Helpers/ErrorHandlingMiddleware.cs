@@ -8,15 +8,21 @@ namespace RankUpp.Api.Helpers
     {
         private readonly RequestDelegate _next;
 
-        public ErrorHandlingMiddleware(RequestDelegate next)
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
+
+        public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
         {
             _next = next;
+
+            _logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
         {
             try
             {
+                _logger.LogInformation("Incoming request: {Method} {Path}", context.Request.Method, context.Request.Path);
+
                 await _next(context);
             }
             catch (WrongEmailOrPasswordException)

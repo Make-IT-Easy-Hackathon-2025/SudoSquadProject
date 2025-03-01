@@ -17,5 +17,10 @@ namespace RankUpp.Application.Interfaces.Repositories
         public Task<int> UpdateUserScoreAsync(int userId,int newAddition, CancellationToken cancellationToken = default);
 
         public Task<int> GetUserActivityStreakAsync(int userId);
+
+        public Task<int> GetPointsChangeByTimeAsync(int userId, DateTime dateTime);
+
+        public Task<int> GetUserScoreByIdAsync(int userId);
+
     }
 }

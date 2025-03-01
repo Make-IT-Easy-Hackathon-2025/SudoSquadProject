@@ -48,6 +48,7 @@ namespace RankUpp.Api.Controllers
         [HttpGet]
         [Route("statistcs")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserStatistics))]
         public async Task<IActionResult> GetStatistcsFromUser()
         {
             var token = RequestProcessingHelper.GetAuthTokenFromRequest(Request);
