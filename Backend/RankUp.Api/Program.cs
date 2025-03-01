@@ -3,7 +3,7 @@ using RankUpp.Api.Helpers;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddBackendServices();
+builder.Services.AddBackendServices(builder.Configuration);
 
 builder.Services.AddConfigurations(builder.Configuration);
 

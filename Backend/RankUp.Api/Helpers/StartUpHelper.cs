@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -15,13 +16,18 @@ namespace RankUpp.Api.Helpers
 {
     public static class StartUpHelper
     {
-        public static IServiceCollection AddBackendServices(this IServiceCollection services)
+        public static IServiceCollection AddBackendServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IMemoryRepository, MemoryRepository>();
             services.AddScoped<IMemoryService, MemoryService>();
+
+            services.AddSingleton<IBlobService, BlobService>();
+
+
+            services.AddSingleton(_ => new BlobServiceClient(GetBlobConnectionString(configuration)));
 
             return services;
         }
@@ -128,6 +134,18 @@ namespace RankUpp.Api.Helpers
             }
 
             return secretKey;
+        }
+
+        public static string GetBlobConnectionString(IConfiguration configuration)
+        {
+            var blobConnectionString = Environment.GetEnvironmentVariable("BLOB_CONNECTION_STRING");
+
+            if (blobConnectionString != null)
+            {
+                return blobConnectionString;
+            }
+
+            return configuration.GetValue<string>("Azure:AzureStorageEmulator");
         }
     }
 }

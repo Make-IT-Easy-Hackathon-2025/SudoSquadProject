@@ -15,6 +15,8 @@ namespace RankUpp.Core.DTOs.Output
 
         public string Description { get; set; }
 
+        public string? ImageUrl { get; set; }
+
         public DateTime Date { get; set; }
 
         public QuizDTO? Quiz { get; set; }
