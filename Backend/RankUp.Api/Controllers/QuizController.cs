@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using RankUpp.Api.Configurations;
+using RankUpp.Api.Helpers;
 using RankUpp.Application.Interfaces.Services;
 using RankUpp.Core.DTOs.Input;
 using RankUpp.Core.DTOs.Output;
@@ -16,10 +19,13 @@ namespace RankUpp.Api.Controllers
 
         private readonly IQuizService _quizService;
 
-        public QuizController(IQuizService quizService, IMapper mapper)
+        private readonly IOptions<JwtSettings> _jwtSettings;
+
+        public QuizController(IQuizService quizService, IMapper mapper, IOptions<JwtSettings> jwtSettings)
         {
             _quizService = quizService;
             _mapper = mapper;
+            _jwtSettings = jwtSettings;
         }
 
         [HttpPost]
@@ -51,5 +57,44 @@ namespace RankUpp.Api.Controllers
 
             return Ok(result.ConvertAll(_mapper.Map<QuizDTO>));
         }
+
+        [HttpPost]
+        [Route("{id}/answer")]
+        [Authorize]
+        public async Task<IActionResult> SubmitAnswer([FromRoute] int id, [FromBody ]QuizAnswersDTO quizAnswers, CancellationToken cancellation = default)
+        {
+            var token = RequestProcessingHelper.GetAuthTokenFromRequest(Request);
+
+            var userId = RequestProcessingHelper.GetIdFromToken(_jwtSettings.Value, token);
+
+            if(userId == null)
+            {
+                return BadRequest();
+            }
+
+            var attempts = quizAnswers.SelectedOptions.Select(x => new QuizAttempt { QuizOptionId = x, UserId = userId.Value, QuizId = id }).ToList();
+
+            return Ok(await _quizService.AddQuizAttemptsAsync(attempts, cancellation));
+        }
+
+        /*
+        [HttpGet]
+        [Route("{id}/evaluate")]
+        [Authorize]
+        public async Task<IActionResult> EvaluateQuiz([FromRoute] int id, CancellationToken cancellationToken = default)
+        {
+            var token = RequestProcessingHelper.GetAuthTokenFromRequest(Request);
+
+            var userId = RequestProcessingHelper.GetIdFromToken(_jwtSettings.Value, token);
+
+            if (userId == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(await _quizService.EvaluateQuizAsync(id, userId.Value, cancellationToken));
+
+        }
+        */
     }
 }

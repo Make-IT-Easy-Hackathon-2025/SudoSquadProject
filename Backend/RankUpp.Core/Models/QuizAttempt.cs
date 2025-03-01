@@ -25,5 +25,10 @@ namespace RankUpp.Core.Models
         [ForeignKey(nameof(QuizOptionId))]
         public virtual QuizOption QuizOption { get; set; }
 
+        [ForeignKey(nameof(Quiz))]
+        public int QuizId { get; set; }
+
+        public virtual Quiz Quiz { get; set; }
+
     }
 }

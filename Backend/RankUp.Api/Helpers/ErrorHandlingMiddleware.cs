@@ -19,6 +19,22 @@ namespace RankUpp.Api.Helpers
             {
                 await _next(context);
             }
+            catch (WrongEmailOrPasswordException)
+            {
+                await HandleExceptionAsync(context, StatusCodes.Status400BadRequest, ErrorMessages.InvalidEmailOrPassword);
+            }
+            catch (EmailAlreadyInUseException)
+            {
+                await HandleExceptionAsync(context, StatusCodes.Status400BadRequest, nameof(EmailAlreadyInUseException));
+            }
+            catch (ImageIsToLargeException)
+            {
+                await HandleExceptionAsync(context, StatusCodes.Status400BadRequest, nameof(ImageIsToLargeException));
+            }
+            catch (InvalidIdException)
+            {
+                await HandleExceptionAsync(context, StatusCodes.Status404NotFound, ErrorMessages.InvalidId);
+            }
             catch(AppSettingNotFoundException)
             {
                 await HandleExceptionAsync(context, StatusCodes.Status500InternalServerError, ErrorMessages.AppSettingsNotFound);

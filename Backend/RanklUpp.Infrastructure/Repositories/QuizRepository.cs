@@ -19,6 +19,15 @@ namespace RanklUpp.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<List<QuizAttempt>> AddQuizAttemptsAsync(List<QuizAttempt> attempts, CancellationToken cancellationToken = default)
+        {
+            _context.QuizAttempts.AddRange(attempts);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return attempts;
+        }
+
         public async Task<Quiz> CreateQuizAsync(Quiz quiz, CancellationToken cancellationToken)
         {
             var quizEntity = _context.Quizzes.Add(quiz);
@@ -40,6 +49,11 @@ namespace RanklUpp.Infrastructure.Repositories
                                     .ThenInclude(q => q.Options);
 
             return query.ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<QuizAttempt>> GetQuizAttemptsAsync(int quizId, int userId, CancellationToken cancellationToken = default)
+        {
+            return await _context.QuizAttempts.Where(qa => qa.UserId == userId && quizId == qa.QuizId).ToListAsync(cancellationToken);
         }
 
         public async Task<Quiz?> GetQuizByIdAsync(int id, CancellationToken cancellation)
