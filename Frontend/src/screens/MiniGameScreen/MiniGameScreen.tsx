@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenTypes } from "../../navigation/ScreenTypes";
 import { useMiniGame } from "./useMiniGame";
-import { RoadMap, QuizWidget } from "../../components/widgets";
+import { RoadMap, QuizWidget, ReactionGameWidget } from "../../components/widgets";
 
 export const MiniGameScreen: React.FC = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<ScreenTypes>>();
@@ -21,6 +21,8 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
       return <RoadMap />;
     } else if (gameType === "quiz") {
       return <QuizWidget miniGameLogic={miniGameLogic} />;
+    } else if (gameType === 'reactionGame') {
+      return <ReactionGameWidget />;
     } else {
       return <Text style={styles.customGameText}>Custom Game</Text>;
     }
@@ -39,14 +41,18 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
       <View style={styles.bottomContainer}>
         <RenderItem />
       </View>
-      <View style={styles.buttonContainer}>
-        <CustomButton
-          text={"Generate Quiz"}
-          buttonStyle={styles.buttonStyle}
-          textStyle={styles.buttonText}
-          onPress={miniGameLogic.generate}
-        />
-      </View>
+      {
+        gameType !== 'reactionGame' && (
+          <View style={styles.buttonContainer}>
+            <CustomButton
+              text={"Generate Quiz"}
+              buttonStyle={styles.buttonStyle}
+              textStyle={styles.buttonText}
+              onPress={miniGameLogic.generate}
+            />
+          </View>
+        )
+      }
     </SafeAreaView>
   );
 };

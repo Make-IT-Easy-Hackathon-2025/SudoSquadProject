@@ -32,9 +32,9 @@ export const PlayScreen: React.FC = () => {
           onPress={() => buttonEffect("quiz")}
         />
         <CustomButton
-          text='Custom Games'
+          text='Reaction Game'
           buttonStyle={styles.buttonStyle}
-          onPress={() => buttonEffect("custom")}
+          onPress={() => buttonEffect("reactionGame")}
         />
       </Column>
     </SafeAreaView>
