@@ -1,41 +1,74 @@
-import { View, Text } from "react-native";
-import React from "react";
-import { useState } from "react";
-import Network from "react-native-vis-network";
+import { View, Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Column, Header1, Header3 } from "../../components/atoms";
+import { useHome } from "./useHome";
+import { UserMemory } from "../../utils";
+import Network, { VisNetworkRef } from "react-native-vis-network";
 
 export const HomeScreen = () => {
-  const nodes = [];
-  const edges = [];
+  const { nodes, edges, user } = useHome();
+  const [loading, setLoading] = useState<boolean>(false);
+  const visNetworkRef = useRef<VisNetworkRef>(null);
 
-  // Generáljunk 20 csomópontot
-  for (let i = 1; i <= 20; i++) {
-    nodes.push({ id: i, label: `Node ${i}` });
+  const handleClickEvent = (event: any) => {
+    console.log(JSON.stringify(event, null, 2));
+  };
 
-    // Ha nem az utolsó csomópont, adjuk hozzá az összeköttetést az előzőhöz
-    if (i < 20) {
-      edges.push({ from: i, to: i + 1 });
+  useEffect(() => {
+    if (!loading || !visNetworkRef.current) {
+      return;
     }
-  }
+
+    const subscription = visNetworkRef.current.addEventListener(
+      "click",
+      (event: any) => handleClickEvent(event)
+    );
+
+    return subscription.remove;
+  }, [loading]);
 
   return (
-    <View style={{ flex: 1 }}>
-      <Text>HomeScreen</Text>
-      <Network
-        data={{ nodes, edges }}
-        options={{
-          nodes: {
-            shape: "dot",
-            size: 20,
-            color: {
-              border: "black",
-              background: "white",
+    <SafeAreaView style={{ flex: 1, marginTop: 26, width: "100%" }}>
+      <Column style={styles.topContainer}>
+        <Header1
+          /*text={user?.username ? user?.username : ""}*/ text='Hello, User'
+        />
+        <Header3 text='See your achievements below🦾' />
+      </Column>
+      <Column style={styles.bottomContainer}>
+        <Network
+          data={{ nodes, edges }}
+          onLoad={() => setLoading(true)}
+          ref={visNetworkRef}
+          options={{
+            nodes: {
+              shape: "dot",
+              size: 20,
+              color: {
+                border: "black",
+                background: "white",
+              },
             },
-          },
-          edges: {
-            color: "gray",
-          },
-        }}
-      />
-    </View>
+            edges: {
+              color: "gray",
+            },
+          }}
+        />
+      </Column>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  topContainer: {
+    alignItems: "flex-start",
+    height: "10%",
+    justifyContent: "center",
+    paddingHorizontal: 18,
+    backgroundColor: "#ffffff",
+  },
+  bottomContainer: {
+    flex: 1,
+    width: "100%",
+  },
+});

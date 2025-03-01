@@ -49,7 +49,7 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
             style={styles.icon}
           />
         )}
-        <Text>{text}</Text>
+        <Text style={textStyle}>{text}</Text>
       </Row>
     </Pressable>
   );

@@ -75,9 +75,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    // height: 40,
-    // margin: 12,
-    // borderWidth: 1,
   },
   inputError: {
     marginBottom: 5,

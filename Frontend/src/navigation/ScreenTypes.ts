@@ -6,12 +6,13 @@ export type ScreenTypes = {
   PlayScreen: undefined;
   HomeScreen: undefined;
   ProfileScreen: undefined;
+  MiniGameScreen: {gameType: string};
 };
 
 export type TabTypes = {
     Home: undefined;
     Profile: undefined;
-    
+    Play: undefined;
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<
@@ -28,3 +29,9 @@ export type ProfileScreenNavigationProp = StackNavigationProp<
   ScreenTypes,
   "ProfileScreen"
 >;
+
+// export type MiniGameScreenNavigationProp = StackNavigationProp<
+//   ScreenTypes,
+//   "MiniGameScreen"
+// >;
+

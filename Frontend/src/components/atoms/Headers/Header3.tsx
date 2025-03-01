@@ -1,13 +1,14 @@
 import React from "react";
-import { Text } from "react-native";
+import { StyleProp, Text, TextStyle } from "react-native";
 import { StyleSheet } from "react-native";
 
 interface Header3Props {
   text: string;
+  style?: StyleProp<TextStyle>;
 }
 
-export const Header3: React.FC<Header3Props> = ({ text }) => {
-  return <Text style={styles.header3}>{text}</Text>;
+export const Header3: React.FC<Header3Props> = ({ text, style }) => {
+  return <Text style={[styles.header3, style]}>{text}</Text>;
 };
 
 const styles = StyleSheet.create({
