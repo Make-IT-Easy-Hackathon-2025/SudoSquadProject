@@ -218,6 +218,30 @@ namespace RankUpp.Application.Services
                     }
                 }
             };
-        } 
+        }
+
+        public async Task<Quiz?> SerachForNewQuizAsync(string keyword, int userId, CancellationToken cancellationToken = default)
+        {
+            var quizzes = await _quizRepository.SearchQuizByKeywordAsync(keyword, cancellationToken);
+
+            if(quizzes.Count == 0)
+            {
+                return null;
+            }
+
+            var attempts = await _quizRepository.GetAllQuizAttemptsAsync(userId, quizzes.Select(x => x.Id).ToList(), cancellationToken);
+
+            var ids = attempts.Select(x => x.QuizId);
+
+            foreach (var item in quizzes)
+            {
+                if (ids.Contains(item.Id) == false)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
     }
 }

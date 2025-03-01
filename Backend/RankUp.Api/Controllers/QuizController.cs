@@ -86,6 +86,7 @@ namespace RankUpp.Api.Controllers
         [HttpGet]
         [Route("{id}/replay")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(QuizReplayDTO))]
         public async Task<IActionResult> GetQuizReplayById([FromRoute] int id, CancellationToken cancellation = default)
         {
             var token = RequestProcessingHelper.GetAuthTokenFromRequest(Request);
@@ -104,8 +105,28 @@ namespace RankUpp.Api.Controllers
         [HttpPost]
         [Route("prompt")]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(QuizDTO))]
         public async Task<IActionResult> GetQuizByPrompt([FromBody] PromptInputDTO promptInput, CancellationToken cancellation = default)
         {
+            if(promptInput.UseAi == false)
+            {
+                var token = RequestProcessingHelper.GetAuthTokenFromRequest(Request);
+
+                var userId = RequestProcessingHelper.GetIdFromToken(_jwtSettings.Value, token);
+
+                if (userId == null)
+                {
+                    return BadRequest();
+                }
+
+
+                var quiz = await _quizService.SerachForNewQuizAsync(promptInput.Keyword.ToLower(), userId.Value, cancellation);
+
+                if(quiz != null)
+                {
+                    return Ok(_mapper.Map<QuizDTO>(quiz));
+                }
+            }
 
             var newQuiz = await _quizService.GenerateQuizAsync(promptInput, cancellation);
 

@@ -24,5 +24,7 @@ namespace RankUpp.Application.Interfaces.Services
         public Task<QuizReplayDTO> GetQuizReplayByIdAsync(int quizId, int userId, CancellationToken cancellationToken = default);
 
         public Task<Quiz> GenerateQuizAsync(PromptInputDTO promptInput, CancellationToken cancellationToken = default);
+
+        public Task<Quiz?> SerachForNewQuizAsync(string keyword, int userId, CancellationToken cancellationToken= default);
     }
 }

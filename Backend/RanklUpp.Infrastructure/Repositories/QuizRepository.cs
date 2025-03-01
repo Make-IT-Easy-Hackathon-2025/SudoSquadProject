@@ -62,5 +62,25 @@ namespace RanklUpp.Infrastructure.Repositories
                                     .ThenInclude(q => q.Options)
                                     .FirstOrDefaultAsync(q => q.Id == id, cancellationToken: cancellation);
         }
+
+        public async Task<List<Quiz>> GetQuizesByIdsAsync(List<int> ids, CancellationToken cancellation = default)
+        {
+            return await _context.Quizzes.Where(q =>  ids.Contains(q.Id)).Include(q => q.Questions)
+                                                                        .ThenInclude(q => q.Options)
+                                                                        .ToListAsync(cancellation);
+        }
+
+        public async Task<List<Quiz>> SearchQuizByKeywordAsync(string keyword, CancellationToken cancellationToken = default)
+        {
+            return await _context.Quizzes.Where(q => q.Title.ToLower().Contains(keyword) || q.Description.ToLower().Contains(keyword))
+                                                                        .Include(q => q.Questions)
+                                                                        .ThenInclude(q => q.Options)
+                                                                        .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<QuizAttempt>> GetAllQuizAttemptsAsync(int userId, List<int> QuizIds, CancellationToken cancellation = default)
+        {
+            return await _context.QuizAttempts.Where(qa => qa.UserId == userId && QuizIds.Contains(qa.QuizId)).ToListAsync(cancellation);
+        }
     }
 }
