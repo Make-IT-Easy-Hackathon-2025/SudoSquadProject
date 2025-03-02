@@ -1,24 +1,37 @@
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { CustomButton } from "../../components/atoms";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenTypes } from "../../navigation/ScreenTypes";
 import { useMiniGame } from "./useMiniGame";
-import { RoadMap, QuizWidget, ReactionGameWidget } from "../../components/widgets";
+import { RoadMapWidget, QuizWidget, ReactionGameWidget } from "../../components/widgets";
 
 export const MiniGameScreen: React.FC = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<ScreenTypes>>();
   const gameType = route.params.gameType;
   const miniGameLogic = useMiniGame();
 
+  const [buttonIsVisible, setButtonIsVisible] = useState(true);
+
   const backButtonEffect = () => {
     navigation.pop();
   };
 
+  let onPressAction = null;
+  let buttonLabel = "";
+
+  if (gameType === "roadmap") {
+    onPressAction = miniGameLogic.generateRoadMap;
+    buttonLabel = "Generate RoadMap";
+  } else if (gameType === "quiz") {
+    onPressAction = miniGameLogic.generateQuiz;
+    buttonLabel = "Generate Quiz";
+  }
+
   const RenderItem = () => {
     if (gameType === "roadmap") {
-      return <RoadMap />;
+      return <RoadMapWidget miniGameLogic={miniGameLogic}/>;
     } else if (gameType === "quiz") {
       return <QuizWidget miniGameLogic={miniGameLogic} />;
     } else if (gameType === 'reactionGame') {
@@ -42,13 +55,16 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
         <RenderItem />
       </View>
       {
-        gameType !== 'reactionGame' && (
+        onPressAction && buttonIsVisible && (
           <View style={styles.buttonContainer}>
             <CustomButton
-              text={"Generate Quiz"}
+              text={buttonLabel}
               buttonStyle={styles.buttonStyle}
               textStyle={styles.buttonText}
-              onPress={miniGameLogic.generate}
+              onPress={async () => {
+                setButtonIsVisible(false);
+                await onPressAction();
+              }}
             />
           </View>
         )
