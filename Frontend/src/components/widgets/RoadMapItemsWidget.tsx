@@ -11,7 +11,7 @@ export const RoadMapItemsWidget: React.FC<{
       renderItem={({ item }) => {
         return (
           <Column>
-            <Row style={{ alignItems: "flex-start" }}>
+            <Row style={{ alignItems: "center" }}>
               <Header2 text={item.id.toString() + "."} />
               <BodyText text={item.value} />
             </Row>
@@ -19,9 +19,7 @@ export const RoadMapItemsWidget: React.FC<{
         );
       }}
       ListEmptyComponent={() => (
-          <View>
-            <Header2 text="No items" />
-          </View>
+          <View></View>
       )}
       keyExtractor={(item, index) =>
         item.id ? item.id.toString() : index.toString()

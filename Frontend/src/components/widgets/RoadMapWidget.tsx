@@ -21,7 +21,7 @@ export const RoadMapWidget: React.FC<{
         </Column>
       );
     }
-    if (!miniGameLogic.roadMap) {
+    if (miniGameLogic.roadMap.length === 0) {
       return (
         <Column
           style={styles.inputContainer}
@@ -66,11 +66,6 @@ export const RoadMapWidget: React.FC<{
         gap={24}
       >
         <View style={styles.headerContainer}>
-          <Ionicons
-            name='school'
-            size={24}
-            color='#6C63FF'
-          />
           <View style={styles.headerTextContainer}>
             <Column gap={4}>
               <Header1
