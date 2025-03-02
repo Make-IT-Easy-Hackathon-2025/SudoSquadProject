@@ -28,7 +28,7 @@ export const get = async <T>(endPoint: string): Promise<T> => {
     }
 };
 
-export const post = async <T>(endPoint: string, data: any): Promise<T> => {
+export const post = async <T>(endPoint: string, data?: any): Promise<T> => {
     try {
         console.log("data",data);
         const response: AxiosResponse<T> = await axiosInstance.post(endPoint, data);

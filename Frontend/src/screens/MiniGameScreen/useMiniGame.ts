@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { post } from "../../services/APIService";
 import { Quiz, RoadMap } from "../../utils/types";
+import { useQuiz } from "../../contexts/QuizContext";
 
 const sampleQuiz: Quiz = {
   id: 1,
@@ -126,6 +127,7 @@ export const useMiniGame = () => {
   }>({});
 
   const [roadMap, setRoadMap] = useState<RoadMap[]>([]);
+  // const useQuiz = useQuiz();
 
   // console.log("UseMiniGame called");
 
@@ -135,13 +137,13 @@ export const useMiniGame = () => {
       // console.log("first",loading);
       setLoading((prev) => !prev);
       // // console.log("first",loading);
-      //  const response: Quiz[]  = await post("/quizes/prompt", {keyword: topic, useAi: true, useAi: false});
+       const response: Quiz  = await post("/quizes/prompt", {keyword: topic, useAi: true});
       //  console.log(response);
-      //  if(response){
+       if(response){
       //  console.log(response);
-      // setQuiz(response);
-      //  }
-      setQuiz(sampleQuiz);
+        setQuiz(response);
+       }
+      // setQuiz(sampleQuiz);
       // console.log("Ez itt a topicaaaaaa: ", topic);
       setLoading((prev) => !prev);
       // console.log("first",loading);
@@ -153,11 +155,11 @@ export const useMiniGame = () => {
   const generateRoadMap = async () => {
     try {
       setLoading((prev) => !prev);
-      // const response: RoadMap[] = await post("/roadmaps/prompt", {keyword: topic, useAi: true});
-      // if (response) {
-      // setRoadMap(response);
-      // }
-      setRoadMap([sampleRoadMap]);
+      const response: RoadMap[] = await post("/roadmaps/prompt", {keyword: topic, useAi: true});
+      if (response) {
+      setRoadMap(response);
+      }
+      // setRoadMap([sampleRoadMap]);
       setLoading((prev) => !prev);
     } catch (error: any) {
       setError(error.message);

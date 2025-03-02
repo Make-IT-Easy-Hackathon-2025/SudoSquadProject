@@ -58,21 +58,19 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
       <View style={styles.bottomContainer}>
         <RenderItem />
       </View>
-      {
-        onPressAction && buttonIsVisible && (
-          <View style={styles.buttonContainer}>
-            <CustomButton
-              text={buttonLabel}
-              buttonStyle={styles.buttonStyle}
-              textStyle={styles.buttonText}
-              onPress={async () => {
-                setButtonIsVisible(false);
-                await onPressAction();
-              }}
-            />
-          </View>
-        )
-      }
+      {onPressAction && buttonIsVisible && (
+        <View style={styles.buttonContainer}>
+          <CustomButton
+            text={buttonLabel}
+            buttonStyle={styles.buttonStyle}
+            textStyle={styles.buttonText}
+            onPress={async () => {
+              setButtonIsVisible(false);
+              await onPressAction();
+            }}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

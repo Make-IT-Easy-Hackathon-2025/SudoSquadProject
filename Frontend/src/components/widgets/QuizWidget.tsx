@@ -93,6 +93,12 @@ export const QuizWidget: React.FC<{
             </Column>
           </View>
         </View>
+        <CustomButton
+          text='Submit'
+          buttonStyle={styles.buttonStyle}
+          textStyle={styles.buttonText}
+          // onPress={miniGameLogic.submitQuiz}
+        />
       </Column>
     );
   }, [miniGameLogic.quiz]);
