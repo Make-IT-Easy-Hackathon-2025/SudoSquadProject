@@ -31,5 +31,10 @@ namespace RankUpp.Core.Models
 
         [ForeignKey(nameof(QuizId))]
         public Quiz? Quiz { get; set; }
+
+        [ForeignKey(nameof(RoadMap))]
+        public int? RoadMapId { get; set; }
+
+        public RoadMap? RoadMap { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace RankUpp.Application.Mappers
         public MemoryMapper()
         {
             CreateMap<CreateMemoryRequestDTO, UserMemory>();
+            CreateMap<UserMemory, UserMemoryDTO>();
         }
     }
 }

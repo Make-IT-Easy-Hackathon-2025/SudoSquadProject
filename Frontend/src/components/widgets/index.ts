@@ -1,4 +1,4 @@
 export * from './QuizWidget';
-export * from "./RoadMap";
+export * from './RoadMapWidget';
 export * from './ReactionGameWidget';
 export * from './ReWatch';

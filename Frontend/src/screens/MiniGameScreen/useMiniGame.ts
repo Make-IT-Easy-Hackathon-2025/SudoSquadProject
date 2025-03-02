@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { post } from "../../services/APIService";
-import { Quiz } from "../../utils/types";
+import { Quiz, RoadMap } from "../../utils/types";
 
 const sampleQuiz: Quiz = {
     id: 1,
@@ -90,45 +90,90 @@ const sampleQuiz: Quiz = {
     ]
 };
 
+const sampleRoadMap: RoadMap = {
+  id: 1,
+  title: "World Geography RoadMap",
+  description: "Boost your knowledge of world geography with these challenging steps!",
+  items: [
+    {
+      id: 1,
+      value: "Visit Pacific Ocean!",
+      order: 1,
+      isDone: false
+    },
+    {
+      id: 2,
+      value: "Visit Atlantic Ocean!",
+      order: 2,
+      isDone: false
+    }
+  ]
+};
 
 export const useMiniGame = () => {
-    const [ topic, setTopic] = useState<string>("");
-    const [ loading, setLoading] = useState<boolean>(false);
-    const [ error, setError] = useState<string>("");
-    const [quiz, setQuiz] = useState<Quiz>();
+    const [ topic, setTopic ] = useState<string>("");
+    const [ loading, setLoading ] = useState<boolean>(false);
+    const [ error, setError ] = useState<string>("");
+    const [ quiz, setQuiz ] = useState<Quiz>();
 
     //
     const [selectedAnswers, setSelectedAnswers] = useState<{[key: number] : number}>({});
 
     
+    const [ roadMap, setRoadMap ] = useState<RoadMap[]>([]);
 
     // console.log("UseMiniGame called");
 
-    const generate = async () => {
+    const generateQuiz = async () => {
         // console.log("Generate function called");
         try{
             // console.log("first",loading);
             setLoading((prev) => !prev);
-            // console.log("first",loading);
-            //  const response: Quiz[]  = await post("/quizes/prompt", {keyword: topic, useAi: false});
+            // // console.log("first",loading);
+            //  const response: Quiz[]  = await post("/quizes/prompt", {keyword: topic, useAi: true, useAi: false});
             //  console.log(response);
             //  if(response){
-                //  console.log(response);c
+                //  console.log(response);
                     // setQuiz(response);
             //  }
-            setQuiz(sampleQuiz);
+            setQuiz([sampleQuiz]);
+            // console.log("Ez itt a topicaaaaaa: ", topic);
             setLoading((prev) => !prev);
             // console.log("first",loading);
         }catch(e: any){
             setError(e.message);
         }
-        
-       
-    }
+    };
+
+    const generateRoadMap = async () => {
+      try {
+        setLoading((prev) => !prev);
+        // const response: RoadMap[] = await post("/roadmaps/prompt", {keyword: topic, useAi: true});
+        // if (response) {
+          // setRoadMap(response);
+        // }
+        setRoadMap([sampleRoadMap]);
+        setLoading((prev) => !prev);
+      } catch(error: any){
+        setError(error.message);
+      }
+    };
 
     const saveQuizInMemory = (quiz: Quiz) => {
         console.log(quiz);
-    }
+    };
+
+    const selectAnswer = (questionId: number, optionId: number) => {
+      setSelectedAnswers((prev) => {
+          const newAnswers = { ...prev };
+          if (newAnswers[questionId] === optionId) {
+              delete newAnswers[questionId]; // Ha újra kattint, törli a választást
+          } else {
+              newAnswers[questionId] = optionId;
+          }
+          return newAnswers;
+      });
+  };
 
     const selectAnswer = (questionId: number, optionId: number) => {
       setSelectedAnswers((prev) => {
@@ -144,5 +189,10 @@ export const useMiniGame = () => {
 
 
     return {
-        topic, setTopic, generate, loading, error, quiz, saveQuizInMemory, selectAnswer, selectedAnswers , setSelectedAnswers}
-}
+      topic, setTopic, 
+      quiz, generateQuiz, saveQuizInMemory, 
+      roadMap, generateRoadMap, 
+      loading, 
+      error
+    };
+};

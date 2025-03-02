@@ -14,5 +14,7 @@ namespace RankUpp.Application.Interfaces.Services
         public Task<UserMemory> GenerateMemoryFromQuizAsync(int userId, int quizId, CancellationToken cancellationToken);
 
         public Task<List<UserMemory>> GetUserMemoriesAsync(int userId, int? pageNumber = null, int? pageSize = null, CancellationToken cancellationToken = default);
+
+        public Task<UserMemory> GenerateMemoryFromRoadMapAsync(int userId, int roadMapId, CancellationToken cancellationToken);
     }
 }

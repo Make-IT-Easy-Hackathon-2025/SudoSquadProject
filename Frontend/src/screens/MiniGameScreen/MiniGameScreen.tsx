@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { CustomButton } from "../../components/atoms";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenTypes } from "../../navigation/ScreenTypes";
 import { useMiniGame } from "./useMiniGame";
 import {
-  RoadMap,
+  RoadMapWidget,
   QuizWidget,
   ReactionGameWidget,
 } from "../../components/widgets";
@@ -16,13 +16,26 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
   const gameType = route.params.gameType;
   const miniGameLogic = useMiniGame();
 
+  const [buttonIsVisible, setButtonIsVisible] = useState(true);
+
   const backButtonEffect = () => {
     navigation.pop();
   };
 
+  let onPressAction = null;
+  let buttonLabel = "";
+
+  if (gameType === "roadmap") {
+    onPressAction = miniGameLogic.generateRoadMap;
+    buttonLabel = "Generate RoadMap";
+  } else if (gameType === "quiz") {
+    onPressAction = miniGameLogic.generateQuiz;
+    buttonLabel = "Generate Quiz";
+  }
+
   const RenderItem = () => {
     if (gameType === "roadmap") {
-      return <RoadMap />;
+      return <RoadMapWidget miniGameLogic={miniGameLogic} />;
     } else if (gameType === "quiz") {
       return <QuizWidget miniGameLogic={miniGameLogic} />;
     } else if (gameType === "reactionGame") {
@@ -42,10 +55,9 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
           textStyle={{ fontSize: 22, fontWeight: "bold" }}
         />
       </View>
-      {/* <View style={{ height: 111, borderWidth: 5, borderColor: "black" }}>
-        <Text>asd</Text>
-      </View> */}
-      <View style={styles.bottomContainer}>{RenderItem()}</View>
+      <View style={styles.bottomContainer}>
+        <RenderItem />
+      </View>
       {gameType !== "reactionGame" && (
         <View style={styles.buttonContainer}>
           <CustomButton

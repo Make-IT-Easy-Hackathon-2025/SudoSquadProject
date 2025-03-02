@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RanklUpp.Infrastructure.Context;
@@ -11,9 +12,11 @@ using RanklUpp.Infrastructure.Context;
 namespace RanklUpp.Infrastructure.Migrations
 {
     [DbContext(typeof(RankUppDbContext))]
-    partial class RankUppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250301233459_addedRoadMaps")]
+    partial class addedRoadMaps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,9 +248,6 @@ namespace RanklUpp.Infrastructure.Migrations
                     b.Property<int?>("QuizId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("RoadMapId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -258,8 +258,6 @@ namespace RanklUpp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("QuizId");
-
-                    b.HasIndex("RoadMapId");
 
                     b.HasIndex("UserId");
 
@@ -351,10 +349,6 @@ namespace RanklUpp.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("QuizId");
 
-                    b.HasOne("RankUpp.Core.Models.RoadMap", "RoadMap")
-                        .WithMany()
-                        .HasForeignKey("RoadMapId");
-
                     b.HasOne("RankUpp.Core.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -362,8 +356,6 @@ namespace RanklUpp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Quiz");
-
-                    b.Navigation("RoadMap");
 
                     b.Navigation("User");
                 });

@@ -147,5 +147,14 @@ namespace RanklUpp.Infrastructure.Repositories
         {
             return (await _context.Users.FindAsync(userId)).Score;
         }
+
+        public async Task<int> GetActivityTimeAsync(int userId, DateTime dateTime)
+        {
+            DateTime oneWeekAgo = DateTime.UtcNow.Date.AddDays(-7);
+
+            var attepts = await _context.QuizAttempts.Where(qa => qa.UserId == userId && dateTime >= oneWeekAgo).ToListAsync();
+
+            return attepts.DistinctBy(x => x.Date).Count();
+        }
     }
 }

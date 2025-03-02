@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Options;
 using RankUpp.Application.Interfaces.Repositories;
 using RankUpp.Application.Interfaces.Services;
+using RankUpp.Core.Configurations;
 using RankUpp.Core.DTOs.Input;
 using RankUpp.Core.DTOs.Input.Gemini;
 using RankUpp.Core.DTOs.Output;
@@ -27,7 +29,9 @@ namespace RankUpp.Application.Services
 
         private readonly IMapper _mapper;
 
-        public QuizService(IQuizRepository quizRepository, IUserRepository userRepository, IMapper mapper)
+        private IOptions<GeminiSettings> _geminiOptions;
+
+        public QuizService(IQuizRepository quizRepository, IUserRepository userRepository, IMapper mapper, IOptions<GeminiSettings> options)
         {
             _quizRepository = quizRepository;
 
@@ -36,6 +40,8 @@ namespace RankUpp.Application.Services
             _mapper = mapper;
 
             _httpClient = new HttpClient();
+
+            _geminiOptions = options;
         }
 
         public async Task<List<QuizAttempt>> AddQuizAttemptsAsync(List<QuizAttempt> attempts, CancellationToken cancellationToken = default)
@@ -121,8 +127,8 @@ namespace RankUpp.Application.Services
 
             try
             {
-                string key = "AIzaSyC_A1VZXu6A-ap1SCpywNNsTY0IGdg0aUk";
-                string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + key;
+                string key = _geminiOptions.Value.ApiKey;
+                string url = _geminiOptions.Value.Url + key;
 
 
                 string jsonData = JsonSerializer.Serialize<QuizDTO>(Exemple());

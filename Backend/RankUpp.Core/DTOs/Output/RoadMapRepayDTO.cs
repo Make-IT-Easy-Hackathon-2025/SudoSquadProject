@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RankUpp.Core.DTOs.Output
 {
-    public class UserMemoryDTO
+    public class RoadMapRepayDTO
     {
         public int Id { get; set; }
 
@@ -15,12 +15,6 @@ namespace RankUpp.Core.DTOs.Output
 
         public string Description { get; set; }
 
-        public string? ImageUrl { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public int? QuizId { get; set; }
-
-        public int? RoadMapId { get; set; }
+        public List<RoadMapItemReplayDTO> Items { get; set; }
     }
 }

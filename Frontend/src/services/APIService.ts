@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { getData } from '../utils';
 
-const API_URL = 'https://8c60-217-73-170-83.ngrok-free.app' + '/api';
+const API_URL = 'https://6ed7-217-73-170-83.ngrok-free.app' + '/api';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
