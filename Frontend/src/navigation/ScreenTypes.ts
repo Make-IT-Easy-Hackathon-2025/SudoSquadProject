@@ -1,4 +1,5 @@
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
+import { UserMemory } from "../utils";
 
 export type ScreenTypes = {
   LoginScreen: undefined;
@@ -6,13 +7,14 @@ export type ScreenTypes = {
   PlayScreen: undefined;
   HomeScreen: undefined;
   ProfileScreen: undefined;
-  MiniGameScreen: {gameType: string};
+  MiniGameScreen: { gameType: string };
+  MemoryScreen: { memory: UserMemory };
 };
 
 export type TabTypes = {
-    Home: undefined;
-    Profile: undefined;
-    Play: undefined;
+  Home: undefined;
+  Profile: undefined;
+  Play: undefined;
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<
@@ -30,8 +32,12 @@ export type ProfileScreenNavigationProp = StackNavigationProp<
   "ProfileScreen"
 >;
 
+export type MemoryScreenScreenNavigationProp = StackNavigationProp<
+  ScreenTypes,
+  "MemoryScreen"
+>;
+
 // export type MiniGameScreenNavigationProp = StackNavigationProp<
 //   ScreenTypes,
 //   "MiniGameScreen"
 // >;
-

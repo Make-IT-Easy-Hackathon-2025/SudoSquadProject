@@ -182,6 +182,10 @@ export const useMiniGame = () => {
     });
   };
 
+  const saveRoadMap = () => {
+    console.log(roadMap[0].items);
+  };
+
   return {
     topic,
     setTopic,
@@ -194,5 +198,6 @@ export const useMiniGame = () => {
     error,
     selectAnswer,
     selectedAnswers,
+    saveRoadMap
   };
 };

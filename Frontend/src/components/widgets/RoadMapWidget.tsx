@@ -1,7 +1,7 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import React, { useMemo } from "react";
 import { useMiniGame } from "../../screens/MiniGameScreen/useMiniGame";
-import { BodyText, Column, CustomInput, Header1, Header3 } from "../atoms";
+import { BodyText, Column, CustomButton, CustomInput, Header1, Header3 } from "../atoms";
 import { Ionicons } from "@expo/vector-icons";
 import { RoadMapItemsWidget } from "./RoadMapItemsWidget";
 
@@ -76,6 +76,13 @@ export const RoadMapWidget: React.FC<{
             </Column>
           </View>
         </View>
+
+        <CustomButton
+          text="Save"
+          buttonStyle={styles.buttonStyle}
+          textStyle={styles.buttonText}
+          onPress={miniGameLogic.saveRoadMap}
+        />
       </Column>
     );
   }, [miniGameLogic.roadMap]);
