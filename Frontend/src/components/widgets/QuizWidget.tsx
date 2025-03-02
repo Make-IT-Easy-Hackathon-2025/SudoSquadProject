@@ -73,17 +73,18 @@ export const QuizWidget: React.FC<{
         gap={24}
       >
         <View style={styles.headerContainer}>
-          <Ionicons
+          {/* <Ionicons
             name='school'
             size={24}
             color='#6C63FF'
-          />
+          /> */}
           <View style={styles.headerTextContainer}>
             <Column gap={4}>
               <Header1
                 style={styles.headerTitle}
                 text={"Your quiz topic is: " + miniGameLogic.topic}
               />
+
               <QuestionWidgets quiz={miniGameLogic.quiz} />
             </Column>
           </View>
@@ -115,7 +116,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     marginBottom: 10,
-    // borderWidth: 1,
   },
   headerTextContainer: {
     marginLeft: 12,
@@ -131,17 +131,11 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     height: 56,
-    // width: 250,
     backgroundColor: "#f8f8f8",
     borderRadius: 12,
     fontSize: 16,
-    // borderWidth: 1,
     borderColor: "#e0e0e0",
     shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 1 },
-    // shadowOpacity: 0.05,
-    // shadowRadius: 2,
-    // elevation: 1,
   },
   buttonContainer: {
     width: "100%",
@@ -166,5 +160,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     marginLeft: 8,
+  },
+
+  quizContainer: {
+    width: "100%",
+    height: "100%",
+    // paddingVertical: 30,
+    // paddingHorizontal: 24,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 2,
   },
 });

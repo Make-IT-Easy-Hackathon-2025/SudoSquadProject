@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { post } from "../../services/APIService";
 import { Quiz } from "../../utils/types";
 
@@ -92,27 +92,34 @@ const sampleQuiz: Quiz = {
 
 
 export const useMiniGame = () => {
-    console.log("UseMiniGame called");
+    // console.log("UseMiniGame called");
     const [ topic, setTopic] = useState<string>("");
     const [ loading, setLoading] = useState<boolean>(false);
     const [ error, setError] = useState<string>("");
-    const [quiz, setQuiz] = useState<Quiz[]>([]);
+    const [quiz, setQuiz] = useState<Quiz>();
+
+    //
+    const [selectedAnswers, setSelectedAnswers] = useState<{[key: number] : number}>({});
+
+    
 
     // console.log("UseMiniGame called");
 
     const generate = async () => {
         // console.log("Generate function called");
         try{
+            // console.log("first",loading);
             setLoading((prev) => !prev);
-             const response: Quiz[]  = await post("/quizes/prompt", {keyword: topic});
+            // console.log("first",loading);
+            //  const response: Quiz[]  = await post("/quizes/prompt", {keyword: topic, useAi: false});
             //  console.log(response);
-             if(response){
-                //  console.log(response);
+            //  if(response){
+                //  console.log(response);c
                     // setQuiz(response);
-             }
-            setQuiz([sampleQuiz]);
-            // console.log("Ez itt a topicaaaaaa: ", topic);
+            //  }
+            setQuiz(sampleQuiz);
             setLoading((prev) => !prev);
+            // console.log("first",loading);
         }catch(e: any){
             setError(e.message);
         }
@@ -124,7 +131,19 @@ export const useMiniGame = () => {
         console.log(quiz);
     }
 
+    const selectAnswer = (questionId: number, optionId: number) => {
+      setSelectedAnswers((prev) => {
+          const newAnswers = { ...prev };
+          if (newAnswers[questionId] === optionId) {
+              delete newAnswers[questionId]; // Ha újra kattint, törli a választást
+          } else {
+              newAnswers[questionId] = optionId;
+          }
+          return newAnswers;
+      });
+  };
+
 
     return {
-        topic, setTopic, generate, loading, error, quiz, saveQuizInMemory}
+        topic, setTopic, generate, loading, error, quiz, saveQuizInMemory, selectedAnswers, setSelectedAnswers, selectAnswer}
 }

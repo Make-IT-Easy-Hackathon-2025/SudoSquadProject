@@ -5,7 +5,11 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenTypes } from "../../navigation/ScreenTypes";
 import { useMiniGame } from "./useMiniGame";
-import { RoadMap, QuizWidget, ReactionGameWidget } from "../../components/widgets";
+import {
+  RoadMap,
+  QuizWidget,
+  ReactionGameWidget,
+} from "../../components/widgets";
 
 export const MiniGameScreen: React.FC = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<ScreenTypes>>();
@@ -21,7 +25,7 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
       return <RoadMap />;
     } else if (gameType === "quiz") {
       return <QuizWidget miniGameLogic={miniGameLogic} />;
-    } else if (gameType === 'reactionGame') {
+    } else if (gameType === "reactionGame") {
       return <ReactionGameWidget />;
     } else {
       return <Text style={styles.customGameText}>Custom Game</Text>;
@@ -38,21 +42,20 @@ export const MiniGameScreen: React.FC = ({ route }: any) => {
           textStyle={{ fontSize: 22, fontWeight: "bold" }}
         />
       </View>
-      <View style={styles.bottomContainer}>
-        <RenderItem />
-      </View>
-      {
-        gameType !== 'reactionGame' && (
-          <View style={styles.buttonContainer}>
-            <CustomButton
-              text={"Generate Quiz"}
-              buttonStyle={styles.buttonStyle}
-              textStyle={styles.buttonText}
-              onPress={miniGameLogic.generate}
-            />
-          </View>
-        )
-      }
+      {/* <View style={{ height: 111, borderWidth: 5, borderColor: "black" }}>
+        <Text>asd</Text>
+      </View> */}
+      <View style={styles.bottomContainer}>{RenderItem()}</View>
+      {gameType !== "reactionGame" && (
+        <View style={styles.buttonContainer}>
+          <CustomButton
+            text={"Generate Quiz"}
+            buttonStyle={styles.buttonStyle}
+            textStyle={styles.buttonText}
+            onPress={miniGameLogic.generate}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -66,13 +69,13 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 0.15,
+    width: "100%",
     justifyContent: "center",
     alignItems: "flex-start",
     paddingHorizontal: 20,
   },
   bottomContainer: {
-    width: "100%",
-    flex: 0.85,
+    flex: 0.95,
     justifyContent: "flex-start",
     alignItems: "center",
     marginBottom: 10,
