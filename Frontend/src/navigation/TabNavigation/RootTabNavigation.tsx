@@ -5,10 +5,8 @@ import {
   PlayStackNavigation,
   ProfileStackNavigation,
 } from "../StackNavigation";
-import { TabTypes } from "../ScreenTypes";
-// import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-
+import Feather from "react-native-vector-icons/Feather";
 const Tab = createBottomTabNavigator();
 
 export const RootTabNavigation = () => {
@@ -18,22 +16,28 @@ export const RootTabNavigation = () => {
         name='Home'
         component={HomeStackNavigation}
         options={{
-          tabBarIcon: ({ focused }) => {
-            return (
-              <FontAwesome
-                name='key'
-                size={20}
-                color={focused ? "blue" : "black"}
-              />
-            );
-          },
+          // tabBarIcon: ({ focused }) => {
+          //   return (
+          //     <FontAwesome
+          //       name='home'
+          //       size={20}
+          //       color={focused ? "black" : "grey"}
+          //     />
+          //   );
+          // },
+          tabBarIconStyle: { display: "none" },
           tabBarLabelStyle: {
-            fontSize: 12,
+            fontSize: 18,
+            marginTop: 6,
             fontWeight: "bold",
-            paddingBottom: 5,
+            textAlign: "center",
           },
           tabBarActiveTintColor: "black",
           tabBarInactiveTintColor: "gray",
+          tabBarStyle: {
+            justifyContent: "center",
+            alignItems: "center",
+          },
         }}
       />
       <Tab.Screen
@@ -41,12 +45,17 @@ export const RootTabNavigation = () => {
         component={PlayStackNavigation}
         options={{
           tabBarLabelStyle: {
-            fontSize: 12,
+            fontSize: 22,
             fontWeight: "bold",
-            paddingBottom: 5,
+            borderWidth: 1,
+            borderColor: "black",
+            width: 160,
+            // height: 100,
+            borderRadius: 50,
           },
           tabBarActiveTintColor: "black",
           tabBarInactiveTintColor: "gray",
+          tabBarIconStyle: { display: "none" },
         }}
       />
       <Tab.Screen
@@ -54,12 +63,13 @@ export const RootTabNavigation = () => {
         component={ProfileStackNavigation}
         options={{
           tabBarLabelStyle: {
-            fontSize: 12,
+            fontSize: 18,
             fontWeight: "bold",
-            paddingBottom: 5,
+            marginTop: 6,
           },
           tabBarActiveTintColor: "black",
           tabBarInactiveTintColor: "gray",
+          tabBarIconStyle: { display: "none" },
         }}
       />
     </Tab.Navigator>

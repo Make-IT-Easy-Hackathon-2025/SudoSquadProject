@@ -85,7 +85,11 @@ export const QuizWidget: React.FC<{
                 text={"Your quiz topic is: " + miniGameLogic.topic}
               />
 
-              <QuestionWidgets quiz={miniGameLogic.quiz} />
+              <QuestionWidgets
+                quiz={miniGameLogic.quiz}
+                selectAnswer={miniGameLogic.selectAnswer}
+                selectedAnswers={miniGameLogic.selectedAnswers}
+              />
             </Column>
           </View>
         </View>

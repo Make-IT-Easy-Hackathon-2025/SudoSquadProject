@@ -1,5 +1,5 @@
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { Quiz, QuizOption, QuizQuestion } from "../../utils";
 import {
   BodyText,
@@ -11,73 +11,49 @@ import {
   Row,
   SmallText,
 } from "../atoms";
-import Icon from "@react-native-vector-icons/fontawesome";
 
 export const QuestionWidgets: React.FC<{
   quiz?: Quiz;
   selectedAnswers: { [key: number]: number | null };
   selectAnswer: (questionId: number, optionId: number) => void;
 }> = ({ quiz, selectedAnswers, selectAnswer }) => {
-  console.log("quiz", quiz);
-  if (
-    !quiz ||
-    !quiz.questions ||
-    !Array.isArray(quiz.questions) ||
-    quiz.questions.length === 0
-  ) {
-    return <BodyText text='No quiz questions available' />;
-  }
-  console.log("answers", quiz.questions[0].options);
+  const [answers, setAnswers] = React.useState<{ [key: number]: number }>({});
 
-  const renderAnswers = (questionId: number, answers: QuizOption[]) => {
-    if (!answers || !Array.isArray(answers) || answers.length === 0) {
-      return <BodyText text='No answer options available' />;
-    }
+  const renderAnswers = useMemo(
+    () => (questionId: number, answers?: QuizOption[]) => {
+      return (
+        <Column>
+          {answers?.map((option) => {
+            const isSelected = selectedAnswers[questionId] === option.id;
+            console.log("isSelected", isSelected, questionId);
 
-    return (
-      <Column>
-        {/* <CustomButton
-          text={answers[0].optionValue}
-          buttonStyle={styles.buttonStyle}
-        />
-        <CustomButton
-          text={answers[1].optionValue}
-          buttonStyle={styles.buttonStyle}
-        />
-        <CustomButton
-          text={answers[2].optionValue}
-          buttonStyle={styles.buttonStyle}
-        />
-        <CustomButton
-          text={answers[3].optionValue}
-          buttonStyle={styles.buttonStyle}
-        /> */}
-
-        {answers.map((option) => {
-          if (!option || option.id === undefined) return null;
-
-          const isSelected = selectedAnswers[questionId] === option.id;
-          return (
-            <CustomButton
-              key={option.id}
-              text={option.optionValue}
-              buttonStyle={[
-                styles.buttonStyle,
-                isSelected && styles.selectedButton,
-              ]}
-              onPress={() => selectAnswer(questionId, option.id)}
-            />
-          );
-        })}
-      </Column>
-    );
-  };
+            return (
+              <CustomButton
+                key={option.id}
+                text={option.optionValue}
+                buttonStyle={[
+                  styles.buttonStyle,
+                  isSelected && styles.selectedButton,
+                ]}
+                onPress={() => {
+                  selectAnswer(questionId, option.id);
+                  console.log("kerdes es valasz", questionId, option.id);
+                  // setAnswers({ ...answers, [questionId]: option.id });
+                  setAnswers((prev) => ({ ...prev, [questionId]: option.id }));
+                }}
+              />
+            );
+          })}
+        </Column>
+      );
+    },
+    [selectedAnswers, selectAnswer]
+  );
 
   return (
     <FlatList
-      data={quiz.questions}
+      data={quiz?.questions || []}
       renderItem={({ item }) => {
-        if (!item) return null;
         return (
           <Column>
             <Row style={{ alignItems: "flex-start" }}>
@@ -86,14 +62,12 @@ export const QuestionWidgets: React.FC<{
             </Row>
 
             <Column style={{ paddingHorizontal: 26 }}>
-              {renderAnswers(item.id, item.options)}
+              {renderAnswers(item.id, item.options || [])}
             </Column>
           </Column>
         );
       }}
-      keyExtractor={(item, index) =>
-        item.id ? item.id.toString() : index.toString()
-      }
+      keyExtractor={(item) => item.id.toString()}
       style={{ height: 550 }}
     />
   );

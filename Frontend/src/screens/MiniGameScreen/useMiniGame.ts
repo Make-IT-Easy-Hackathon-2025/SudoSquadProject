@@ -92,7 +92,6 @@ const sampleQuiz: Quiz = {
 
 
 export const useMiniGame = () => {
-    // console.log("UseMiniGame called");
     const [ topic, setTopic] = useState<string>("");
     const [ loading, setLoading] = useState<boolean>(false);
     const [ error, setError] = useState<string>("");
@@ -145,5 +144,5 @@ export const useMiniGame = () => {
 
 
     return {
-        topic, setTopic, generate, loading, error, quiz, saveQuizInMemory, selectedAnswers, setSelectedAnswers, selectAnswer}
+        topic, setTopic, generate, loading, error, quiz, saveQuizInMemory, selectAnswer, selectedAnswers , setSelectedAnswers}
 }
