@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RankUpp.Core.DTOs.Input;
+using RankUpp.Core.DTOs.Output;
 using RankUpp.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ namespace RankUpp.Application.Mappers
             CreateMap<RoadMap, RoadMapDTO>().ForMember(dest => dest.Items, act => act.MapFrom(src => src.Items));
 
             CreateMap<RoadMapItem, RoadMapItemDTO>();
+
+            CreateMap<RoadMap, RoadMapRepayDTO>().ForMember(dest => dest.Items, act => act.MapFrom(src => src.Items));
+
+            CreateMap<RoadMapItem, RoadMapItemReplayDTO>();
         }
     }
 }

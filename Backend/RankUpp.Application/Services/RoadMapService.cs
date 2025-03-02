@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using RankUpp.Application.Interfaces.Repositories;
 using RankUpp.Application.Interfaces.Services;
+using RankUpp.Application.Models;
 using RankUpp.Core.Configurations;
 using RankUpp.Core.DTOs.Input;
 using RankUpp.Core.DTOs.Input.Gemini;
@@ -132,6 +133,34 @@ namespace RankUpp.Application.Services
         public void Dispose()
         {
             _httpClient.Dispose();
+        }
+
+        public async Task<List<UserRoadMapItems>> ComplateRoadItmesAsync(List<int> ids, int userId, CancellationToken cancellation = default)
+        {
+            List<UserRoadMapItems> items = ids.Select(x => new UserRoadMapItems {  RoadMapItemId = x , UserId = userId}).ToList();
+
+            return await _roadMapRepository.AddedUserRoadMapItems(items, cancellation);
+        }
+
+        public async Task<RoadMapRepayDTO> GetRoadMapReplayAsync(int userId, int roadMapId, CancellationToken cancellation = default)
+        {
+            var roadMap = await _roadMapRepository.GetRoadMapByIdAsync(roadMapId);
+
+            var userRoadMapItems = await _roadMapRepository.GetUserRoadMapItems(userId, cancellation);
+
+            var completed = userRoadMapItems.Select(x => x.Id).ToList();
+
+            var result = _mapper.Map<RoadMapRepayDTO>(roadMap);
+
+            foreach (var item in result.Items)
+            {
+                if (completed.Contains(item.Id))
+                {
+                    item.IsCompleted = true;
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -51,6 +51,33 @@ namespace RanklUpp.Infrastructure.Repositories
 
             var result = await _context.Memories.AddAsync(memory);
 
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return result.Entity;
+        }
+
+        public async Task<UserMemory> GenerateMemoryFromRoadMapAsync(int userId, int roadMapId, CancellationToken cancellationToken)
+        {
+            var roadMap = await _context.RoadMaps.FindAsync(roadMapId);
+
+            if (roadMap == null)
+            {
+                throw new InvalidIdException();
+            }
+
+            var memory = new UserMemory
+            {
+                UserId = userId,
+                RoadMapId = roadMapId,
+                Date = DateTime.UtcNow,
+                Title = "Roadmap: " + roadMap.Title,
+                Description = roadMap.Description,
+            };
+
+            var result = await _context.Memories.AddAsync(memory);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
             return result.Entity;
         }
 

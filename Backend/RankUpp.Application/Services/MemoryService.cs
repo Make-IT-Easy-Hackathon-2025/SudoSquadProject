@@ -28,6 +28,11 @@ namespace RankUpp.Application.Services
             return await _memoryRepository.GenerateMemoryFromQuizAsync(userId, quizId, cancellationToken);
         }
 
+        public async Task<UserMemory> GenerateMemoryFromRoadMapAsync(int userId, int roadMapId, CancellationToken cancellationToken)
+        {
+            return await _memoryRepository.GenerateMemoryFromRoadMapAsync(userId, roadMapId, cancellationToken);
+        }
+
         public async Task<List<UserMemory>> GetUserMemoriesAsync(int userId, int? pageNumber = null, int? pageSize = null, CancellationToken cancellationToken = default)
         {
             return await _memoryRepository.GetUserMemoriesAsync(userId, pageNumber, pageSize, cancellationToken);
