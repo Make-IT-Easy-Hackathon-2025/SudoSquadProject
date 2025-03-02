@@ -1,18 +1,34 @@
-import { View, Text, StyleSheet, SafeAreaView, FlatList } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { Column, Header1, Header3 } from "../../components/atoms";
 import { useHome } from "./useHome";
-import { UserMemory } from "../../utils";
 import Network, { VisNetworkRef } from "react-native-vis-network";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ScreenTypes } from "../../navigation/ScreenTypes";
 
 export const HomeScreen = () => {
-  const { nodes, edges, user } = useHome();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { nodes, edges, getMemories } = useHome();
+  const [loading, setLoading] = useState(false);
   const visNetworkRef = useRef<VisNetworkRef>(null);
 
+  const navigation = useNavigation<NativeStackNavigationProp<ScreenTypes>>();
+
   const handleClickEvent = (event: any) => {
-    console.log(JSON.stringify(event, null, 2));
+    console.log("Node clicked:", JSON.stringify(event, null, 2));
+
+    if (event.nodes && event.nodes.length > 0) {
+      const nodeId = event.nodes[0];
+      const nodeData = nodes?.find((node: any) => node.id === nodeId);
+      if (nodeData) {
+        navigation.push("MemoryScreen", { memory: nodeData });
+      }
+    }
   };
+
+  useEffect(() => {
+    getMemories();
+  }, []);
 
   useEffect(() => {
     if (!loading || !visNetworkRef.current) {
@@ -21,19 +37,22 @@ export const HomeScreen = () => {
 
     const subscription = visNetworkRef.current.addEventListener(
       "click",
-      (event: any) => handleClickEvent(event)
+      handleClickEvent
     );
 
     return subscription.remove;
-  }, [loading]);
+  }, [loading, nodes]);
+
+  console.log("asdasdasd", {
+    nodes,
+    edges,
+  });
 
   return (
-    <SafeAreaView style={{ flex: 1, marginTop: 26, width: "100%" }}>
+    <SafeAreaView style={styles.container}>
       <Column style={styles.topContainer}>
-        <Header1
-          /*text={user?.username ? user?.username : ""}*/ text='Hello, User'
-        />
-        <Header3 text='See your achievements below🦾' />
+        <Header1 text="Hello, User" />
+        <Header3 text="See your achievements below 🦾" />
       </Column>
       <Column style={styles.bottomContainer}>
         <Network
@@ -43,14 +62,36 @@ export const HomeScreen = () => {
           options={{
             nodes: {
               shape: "dot",
-              size: 20,
+              size: 25,
               color: {
-                border: "black",
-                background: "white",
+                border: "#007AFF",
+                background: "#EAF2FF",
+                highlight: {
+                  border: "#004F9E",
+                  background: "#A3C4FF",
+                },
+              },
+              font: {
+                size: 14,
+                color: "#333",
               },
             },
             edges: {
-              color: "gray",
+              color: {
+                color: "#C0C0C0",
+                highlight: "#007AFF",
+              },
+              width: 2,
+            },
+            interaction: {
+              hover: true,
+              tooltipDelay: 200,
+            },
+            physics: {
+              enabled: true,
+              stabilization: {
+                iterations: 100,
+              },
             },
           }}
         />
@@ -60,6 +101,10 @@ export const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F8F9FB",
+  },
   topContainer: {
     alignItems: "flex-start",
     height: "10%",

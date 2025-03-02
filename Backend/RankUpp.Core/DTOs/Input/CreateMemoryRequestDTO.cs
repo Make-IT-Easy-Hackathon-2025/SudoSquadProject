@@ -14,6 +14,6 @@ namespace RankUpp.Core.DTOs.Input
 
         public string Description { get; set; }
 
-        public IFormFile ImageFile { get; set; }
+        public IFormFile? ImageFile { get; set; }
     }
 }
